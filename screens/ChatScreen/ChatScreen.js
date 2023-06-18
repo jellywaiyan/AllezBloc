@@ -2,13 +2,13 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaView, StyleSheet, Text} from 'react-native';
-import { useChatClient } from '../useChatClient';
+import { useChatClient } from '../../useChatClient';
 import {Chat,Channel,ChannelList,MessageList, 
   MessageInput, OverlayProvider, } from 'stream-chat-expo';
 import { StreamChat } from 'stream-chat';
-import { chatApiKey, chatUserId } from '../config/chatConfig';
-import { AppProvider } from "../AppContext";
-import { useAppContext } from '../AppContext';
+import { chatApiKey, chatUserId } from '../../config/chatConfig';
+import { AppProvider } from "../../AppContext";
+import { useAppContext } from '../../AppContext';
 
 const chatClient = StreamChat.getInstance(chatApiKey);
 

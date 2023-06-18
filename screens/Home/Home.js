@@ -18,12 +18,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import { useNavigation } from '@react-navigation/native';
 // code
 
-const Home = ({navigation}) => {
+const Home = () => {
   const [currentSelected, setCurrentSelected] = useState([0]);
+  const navigation = useNavigation(); 
 
+  const onChatPress = () => {
+    navigation.navigate("Chat")
+  }
   const renderGym = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -201,7 +205,9 @@ const Home = ({navigation}) => {
                 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={onChatPress}
+            > 
               <Material
                 name="segment"
                 style={{
