@@ -1,20 +1,29 @@
 import React, {useState} from 'react';
 import { useCallback } from 'react';
 import {StyleSheet, Text, 
-  View, Image, ScrollView} from 'react-native';
+  View, Image, ScrollView, Alert} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
+import { Auth } from 'aws-amplify';
 
-const ForgotPasswordScreen = () => {
-  const [username, setUsername] = useState('');
+const ForgotPasswordScreen = (data) => {
+
+  const {control, handleSubmit } = useForm();
+
   const navigation = useNavigation();
 
-  const onSendPress = () => {
-    navigation.navigate("Reset Password");
+  const onSendPress = async(data) => {
+    try {
+      await Auth.forgotPassword(data.username);
+      navigation.navigate("Reset Password");
+    } catch(e) {
+      Alert.alert("Oops", e.message);
+    }
   }
   const onBackToSignInPress = () => {
     navigation.navigate("Sign In");
@@ -42,13 +51,16 @@ const ForgotPasswordScreen = () => {
           style={{right:125, top:5}}
           >Username *</Text>
           <CustomInput
-           placeHolder='Enter your Username'
-           value={username}
-           setValue={setUsername}
-           />
+          name="username"
+          placeHolder='Enter your Username'
+          control={control}
+          rules={{
+            required: "Username is required"
+          }}
+          />
           <CustomButton
           text="Send reset code via email"
-          onPress={onSendPress}
+          onPress={handleSubmit(onSendPress)}
           top={-1}
           />
           <CustomButton

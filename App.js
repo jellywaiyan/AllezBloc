@@ -9,11 +9,12 @@ import ConfirmEmailScreen from "./screens/ConfirmEmailScreen/ConfirmEmailScreen"
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScreen";
 import Navigation from "./navigation";
+import { Amplify} from "aws-amplify";
+import awsExports from './src/aws-exports';
 
-const Stack = createStackNavigator();
+Amplify.configure(awsExports);
 
-export default function App() {
-
+const App = () => {
   return (
     <AppProvider>
       <SafeAreaView style={{flex : 1}}>
@@ -25,7 +26,7 @@ export default function App() {
   
 };
 
-
+export default App;
 /*
 
 <NavigationContainer>

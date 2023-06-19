@@ -1,5 +1,5 @@
-import React from 'react';
-import { SafeAreaView,Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, ActivityIndicator, SafeAreaView,Text, Image, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomeScreen from '../screens/WelcomeScreen/WelcomeScreen';
@@ -9,10 +9,48 @@ import ResetPasswordScreen from '../screens/ResetPasswordScreen/ResetPasswordScr
 import ConfirmEmailScreen from '../screens/ConfirmEmailScreen/ConfirmEmailScreen';
 import Home from '../screens/Home/Home';
 import ChatScreen from '../screens/ChatScreen/ChatScreen';
+import { Auth, Hub } from 'aws-amplify';
+import { StyleSheet } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+
+    // const [user, setUser] = useState(undefined);
+
+    // const checkUser = async () => {
+    //     try {
+    //         const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
+    //         setUser(authUser); 
+    //     } catch(e) {
+    //         setUser(null);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     checkUser();
+    // }, [])
+
+    // useEffect(() => {
+    //     const listener = data => {
+    //         console.log(data);
+    //     };
+
+    //     Hub.listen("auth", listener);
+    // }, []);
+
+    // if (user == undefined) {
+    //     return (
+    //         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+    //             <Image 
+    //   style={[styles.logo, {bottom:20}]}
+    //   resizeMode='contain'
+    //   source={require("./../assets/AllezBlocAppLogo.jpg")}/>
+    //   <Text>AllezBloc</Text>
+    //         </View>
+    //     );
+    // };
+    
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -27,5 +65,20 @@ const Navigation = () => {
         </NavigationContainer>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+      alignItems:'center',
+      flex: 1,
+      backgroundColor:"",
+      paddingTop:"35%"
+    },
+
+    logo: {
+      height: 110,
+      width: 110,
+      borderRadius:15
+    }
+})
 
 export default Navigation;

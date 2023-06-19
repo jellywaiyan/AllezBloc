@@ -1,27 +1,34 @@
 import React, {useState} from 'react';
 import { useCallback } from 'react';
 import {StyleSheet, Text, 
-  View, Image, ScrollView} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+  View, Image, ScrollView, Alert} from 'react-native';
 import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
-
+import { Auth } from 'aws-amplify';
+import { useForm } from 'react-hook-form';
 
 //to do : change font
 
 function WelcomeScreen(props) {
-  const [username, setUsername ] = useState('');
-
-  const [password, setPassword ] = useState(''); 
-
+  const {control, handleSubmit, formState:{errors}} = useForm();
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
-  const onSignInPress = () => {
-    //validate user (backend WIP)
-    navigation.navigate('Home');
+  const onSignInPress = async (data) => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    try {
+    const response = await Auth.signIn(data.username, data.password);
+    navigation.navigate("Home");
+    } catch(e) {
+      Alert.alert("Oops", e.message)
+    }
+    setLoading(false);
   }
 
   const onForgotPasswordPress = () => {
@@ -57,21 +64,26 @@ function WelcomeScreen(props) {
             ALLEZBLOC
           </Text>
           <CustomInput
-           placeHolder='Username'
-           value={username}
-           setValue={setUsername}
-           top={30}
-           />
+          name="username"
+          placeHolder='Username'
+          control={control}
+          rules={{required: 'Username is required'}}
+          top={30}
+          />
           <CustomInput
+          name="password"
           placeHolder="Password"
-          value={password}
-          setValue={setPassword}
-          secureTextEntry={true}
+          control={control}
+          rules={{
+            required: 'Password is required', 
+            minLength:{value:8, message:"Password should be a minimum of 8 characters"}
+          }}
+          secureTextEntry
           top={25}
           />
           <CustomButton
-          text="Sign In"
-          onPress={onSignInPress}
+          text={loading ? "Signing In... " : "Sign In"}
+          onPress={handleSubmit(onSignInPress)}
           top={0}
           />
           <CustomButton

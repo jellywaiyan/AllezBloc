@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useCallback } from 'react';
 import {StyleSheet, Text, 
-  View, Image, ScrollView} from 'react-native';
+  View, Image, ScrollView, Alert} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
@@ -9,14 +9,22 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons';
 import { SendButton } from 'stream-chat-expo';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
+import { Auth } from 'aws-amplify';
 
-const ResetPasswordScreen = () => {
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+const ResetPasswordScreen = (data) => {
+
+  const {control, handleSubmit} = useForm();
+
   const navigation = useNavigation();
   
-  const onResetPress = () => {
-    navigation.navigate("Home");
+  const onResetPress = async(data) => {
+    try {
+      await Auth.forgotPasswordSubmit(data.username, data.code, data.password);
+      navigation.navigate("Sign In");
+    } catch(e) {
+      Alert.alert("Oops", e.message);
+    }
   }
 
   const onBackToSignInPress = () => {
@@ -42,18 +50,35 @@ const ResetPasswordScreen = () => {
           />
           <Text style={styles.title}>Reset Your Password</Text>
           <CustomInput
-           placeHolder='Enter the code sent to your email'
-           value={code}
-           setValue={setCode}
-           />
-           <CustomInput
-           placeHolder='Enter your new password'
-           value={newPassword}
-           setValue={setNewPassword}
-           />
+          name="username"
+          placeHolder='Username'
+          control={control}
+          rules={{
+            required:"Username is required"
+          }}
+          />
+          <CustomInput
+          name="code"
+          placeHolder='Enter the code sent to your email'
+          control={control}
+          secureTextEntry={false}
+          rules={{
+            required:"Code is required"
+          }}
+          />
+          <CustomInput
+          name="password"
+          placeHolder='Enter your new password'
+          control={control}
+          secureTextEntry={true}
+          rules={{
+            required: 'Password is required', 
+            minLength:{value:8, message:"Password should be a minimum of 8 characters"}
+          }}
+          />
           <CustomButton
           text="Reset Password"
-          onPress={onResetPress}
+          onPress={handleSubmit(onResetPress)}
           top={-1}
           />
           <CustomButton

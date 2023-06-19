@@ -19,14 +19,16 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import { Auth } from 'aws-amplify';
 // code
 
 const Home = () => {
   const [currentSelected, setCurrentSelected] = useState([0]);
   const navigation = useNavigation(); 
 
-  const onChatPress = () => {
-    navigation.navigate("Chat")
+  const signOut = () => {
+    Auth.signOut();
+    navigation.navigate("Sign In");
   }
   const renderGym = ({item, index}) => {
     return (
@@ -206,7 +208,7 @@ const Home = () => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={onChatPress}
+            onPress={signOut}
             > 
               <Material
                 name="segment"
@@ -215,7 +217,9 @@ const Home = () => {
                   color: HOMECOLOURS.black, right: 15
                 }}
               />
+            <Text style={{right:30}}>Sign out</Text>
             </TouchableOpacity>
+
           </SafeAreaView>
           <View style={{padding: 20}}>
             <Text

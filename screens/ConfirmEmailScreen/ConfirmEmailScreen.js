@@ -1,27 +1,45 @@
 import React, {useState} from 'react';
 import { useCallback } from 'react';
 import {StyleSheet, Text, 
-  View, Image, ScrollView} from 'react-native';
+  View, Image, ScrollView, Alert} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
+import { Auth } from 'aws-amplify';
 
-function ConfirmEmailScreen(props) {
-  const [emailCode, setEmailCode] = useState('');
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+const ConfirmEmailScreen = data => {
+  const route = useRoute();
+  const {control, handleSubmit, watch} = useForm({
+    defaultValues: {username: route?.params?.username},
+  });
+  const username = watch("username");
   const navigation = useNavigation();
 
-  const onConfirmPress = () => {
-    navigation.navigate("Home");
+  const onConfirmPress = async (data) => {
+    try {
+      await Auth.confirmSignUp(data.username, data.code);
+      navigation.navigate("Sign In");
+    } catch(e) {
+      Alert.alert("Oops", e.message);
+    }
   }
+
   const onBackToSignInPress = () => {
     navigation.navigate("Sign In");
   }
-  const onResendPress = () => {
-    console.warn("Resend");
+  const onResendPress = async () => {
+    try {
+      await Auth.resendSignUp(username);
+      Alert.alert("Success", "Confirmation code has been resent to your email")
+    } catch(e) {
+      Alert.alert("Oops", e.message);
+    }
   }
 
   // const [fontsLoaded] = useFonts({
@@ -44,24 +62,34 @@ function ConfirmEmailScreen(props) {
           <Text style={styles.title}>Email Confirmation</Text>
 
           <CustomInput
-           placeHolder='Enter the code sent to your email'
-           value={emailCode}
-           setValue={setEmailCode}
+          name="username"
+           placeHolder='Username'
+           control={control}
+           rules={{
+            required: "Username is required"
+           }}
+           />
+          <CustomInput
+          name="code"
+          placeHolder='Enter the code sent to your email'
+          control={control}
+          rules={{
+           }}
            />
           <CustomButton
           text="Confirm"
-          onPress={onConfirmPress}
+          onPress={handleSubmit(onConfirmPress)}
           top={-1}
           />
           <CustomButton
           text="Resend code"
-          onPress={onResendPress}
+          onPress={handleSubmit(onResendPress)}
           type= "SECONDARY"
           top={-1}
           />
           <CustomButton
           text="Back to Sign In"
-          onPress={onBackToSignInPress}
+          onPress={handleSubmit(onBackToSignInPress)}
           type= "TERTIARY"
           fgColor='grey'
           top={-1}
