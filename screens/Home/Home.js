@@ -218,7 +218,6 @@ const Home = () => {
               />
             <Text style={{right:30}}>Sign out</Text>
             </TouchableOpacity>
-
           </SafeAreaView>
           <View style={{padding: 20}}>
             <Text

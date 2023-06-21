@@ -8,9 +8,11 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPassword
 import ResetPasswordScreen from '../screens/ResetPasswordScreen/ResetPasswordScreen';
 import ConfirmEmailScreen from '../screens/ConfirmEmailScreen/ConfirmEmailScreen';
 import Home from '../screens/Home/Home';
-import ChatScreen from '../screens/ChatScreen/ChatScreen';
+import ChatScreen from '../screens/ChatScreen/OldChatScreen';
 import { Auth, Hub } from 'aws-amplify';
 import { StyleSheet } from 'react-native';
+import NewChatScreen from '../screens/NewChatScreen/NewChatScreen';
+import InChatScreen from '../screens/InChatScreen/InChatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,7 +57,9 @@ const Navigation = () => {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
                 {user ? (          
-                <Stack.Screen name= "Home"component={Home}/>
+              //<Stack.Screen name= "Home"component={Home}/>
+             // <Stack.Screen name= "Chat" component={NewChatScreen}/>
+            <Stack.Screen name= "Chat" component={InChatScreen}/>
                 ) : (
                 <>
             <Stack.Screen name= "Sign In"component={WelcomeScreen}/>
@@ -63,7 +67,6 @@ const Navigation = () => {
             <Stack.Screen name= "Confirm Email"component={ConfirmEmailScreen}/>
             <Stack.Screen name= "Forgot Password"component={ForgotPasswordScreen}/>
             <Stack.Screen name= "Reset Password"component={ResetPasswordScreen}/>
-            <Stack.Screen name= "Chat"component={ChatScreen}/>
             </>
                 )}
             </Stack.Navigator>
