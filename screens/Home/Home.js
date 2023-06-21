@@ -28,7 +28,6 @@ const Home = () => {
 
   const signOut = () => {
     Auth.signOut();
-    navigation.navigate("Sign In");
   }
   const renderGym = ({item, index}) => {
     return (

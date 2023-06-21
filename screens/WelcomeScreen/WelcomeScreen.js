@@ -24,7 +24,6 @@ function WelcomeScreen(props) {
     setLoading(true);
     try {
     const response = await Auth.signIn(data.username, data.password);
-    navigation.navigate("Home");
     } catch(e) {
       Alert.alert("Oops", e.message)
     }
