@@ -9,6 +9,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
+import { HOMECOLOURS } from '../../assets/color';
 
 const ForgotPasswordScreen = (data) => {
 
@@ -38,7 +39,7 @@ const ForgotPasswordScreen = (data) => {
   // }
 
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor:HOMECOLOURS.dullwhite}}>
         <View style={styles.container}>
           <Image 
           style={styles.logo}

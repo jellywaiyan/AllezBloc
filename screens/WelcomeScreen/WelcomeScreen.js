@@ -9,6 +9,7 @@ import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSign
 import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 import { useForm } from 'react-hook-form';
+import { HOMECOLOURS } from '../../assets/color';
 
 //to do : change font
 
@@ -47,7 +48,7 @@ function WelcomeScreen(props) {
   // }
 
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor:HOMECOLOURS.dullwhite}}>
         <View style={styles.container}>
           <Image 
       style={[styles.logo, {bottom:20}]}
@@ -55,12 +56,12 @@ function WelcomeScreen(props) {
       source={require("../../assets/AllezBlocLogoFinal.jpg")}
       />
       <Text style={{
-        fontSize:20, 
-        fontWeight:'400',
+        fontSize:25, 
+        fontWeight:'bold',
         color:"black", 
         textShadowRadius:2,
         textShadowOffset:{width:0.1,height:0.1},
-        textShadowColor:'#317DFF',}}>
+        textShadowColor:'gray',}}>
             ALLEZBLOC
           </Text>
           <CustomInput
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
       alignItems:'center',
       flex: 1,
       backgroundColor:"",
-      paddingTop:"35%"
+      paddingTop:"35%",
     },
 
     logo: {

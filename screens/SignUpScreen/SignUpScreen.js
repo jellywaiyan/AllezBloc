@@ -9,6 +9,7 @@ import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSign
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
+import { HOMECOLOURS } from '../../assets/color';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -51,7 +52,7 @@ const SignUpScreen = () => {
   // }
 
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor:HOMECOLOURS.dullwhite}}>
         <View style={styles.container}>
           <Image 
           style={styles.logo}
@@ -139,7 +140,7 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
     container: {
       alignItems:'center',
-      paddingTop:"25%"
+      paddingTop:"20%"
     },
 
     logo: {
