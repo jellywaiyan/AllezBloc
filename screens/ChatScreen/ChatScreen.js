@@ -6,7 +6,7 @@ import { HOMECOLOURS } from '../../assets/color';
 import chats from "../../data/chats.json"
 import { FlatList } from 'react-native-gesture-handler';
 
-const NewChatScreen = () => {
+const ChatScreen = () => {
     return (
         <SafeAreaView>
         <FlatList
@@ -17,7 +17,7 @@ const NewChatScreen = () => {
     );
 }
 
-export default NewChatScreen;
+export default ChatScreen;
 
 const styles = StyleSheet.create({
     container: {

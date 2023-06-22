@@ -57,7 +57,7 @@ const SignUpScreen = () => {
           <Image 
           style={styles.logo}
           resizeMode='contain'
-          source={require('../../assets/AllezBlocAppLogo.jpg')}
+          source={require('../../assets/allezlogo.jpg')}
           />
           <Text style={styles.title}>Create Account</Text>
 

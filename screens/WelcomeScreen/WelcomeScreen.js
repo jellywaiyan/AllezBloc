@@ -52,7 +52,7 @@ function WelcomeScreen(props) {
           <Image 
       style={[styles.logo, {bottom:20}]}
       resizeMode='contain'
-      source={require("../../assets/AllezBlocAppLogo.jpg")}
+      source={require("../../assets/allezlogo.jpg")}
       />
       <Text style={{
         fontSize:20, 
