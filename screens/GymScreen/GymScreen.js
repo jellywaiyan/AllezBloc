@@ -22,7 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 // code
 
-const Home = () => {
+const GymScreen = () => {
   const [currentSelected, setCurrentSelected] = useState([0]);
   const navigation = useNavigation(); 
 
@@ -169,11 +169,11 @@ const Home = () => {
     //UI
 
   return (
-    <View
+    <SafeAreaView
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: HOMECOLOURS.white,
+        backgroundColor: HOMECOLOURS.dullwhite,
       }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
@@ -280,7 +280,7 @@ const Home = () => {
               fontWeight: '700',
               color: HOMECOLOURS.black,
             }}>
-            Available Gyms
+            Locations
           </Text>
           {Categories[currentSelected].branches.map(renderBranch)}
           <TouchableOpacity
@@ -302,8 +302,8 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default Home;
+export default GymScreen;

@@ -20,6 +20,7 @@ const InChatScreen = () =>{
         <KeyboardAvoidingView
     behavior={Platform.OS === "ios" ? "padding" : "height"}
     style={styles.bckgrnd}
+    keyboardVerticalOffset={90}
   >
         <ImageBackground
         source={bckgrnd}

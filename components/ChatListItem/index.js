@@ -4,13 +4,14 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ChatListItem = ({ chat }) => {
 
   const navigation = useNavigation();
     return (
 
-        <Pressable 
+        <TouchableOpacity 
         onPress={() => navigation.navigate("Chat", {id: chat.id, name: chat.user.name})}
         style={styles.container}>
             <Image 
@@ -32,7 +33,7 @@ const ChatListItem = ({ chat }) => {
                 {chat.lastMessage.text}
                 </Text>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     )
 }
 export default ChatListItem;

@@ -1,58 +1,70 @@
 export const Categories = [
     {
       name: 'Boulder World',
-      image: require('../assets/gym.png'),
+      image: require('../assets/GymPics/BoulderWorld.png'),
       branches: [
         {
-          name: 'Tai Seng',
-          image: require('../assets/gym.png'),
-        },
-        {
-            name: 'Downtown',
-            image: require('../assets/gym.png'),
-        },
-        {
-            name: 'Woodlands',
+            name: 'Orchard',
             image: require('../assets/gym.png'),
         },
       ],
     },
     {
         name: 'Boulder Planet',
-        image: require('../assets/gym.png'),
+        image: require('../assets/GymPics/BoulderPlanet.png'),
         branches: [
           {
-            name: 'Orchard',
+            name: 'Sembawang',
+            image: require('../assets/gym.png'),
+          },
+          {
+            name: 'Tai Seng',
             image: require('../assets/gym.png'),
           },
         ],
       },
       {
-        name: 'Boulder Earth',
-        image: require('../assets/gym.png'),
+        name: 'Origin Boulder',
+        image: require('../assets/GymPics/OriginLogo.png'),
         branches: [
           {
-            name: 'Jurong East',
+            name: 'Chinatown',
             image: require('../assets/gym.png'),
           },
         ],
       },
       {
-        name: 'Boulder Gym',
-        image: require('../assets/gym.png'),
+        name: 'BFFClimb',
+        image: require('../assets/GymPics/BFFClimb.png'),
         branches: [
           {
-            name: 'Bishan',
+            name: 'Bendemeer',
+            image: require('../assets/gym.png'),
+          },
+          {
+            name: 'Bukit Timah',
             image: require('../assets/gym.png'),
           },
         ],
       },
       {
         name: 'Boulder Movement',
-        image: require('../assets/gym.png'),
+        image: require('../assets/GymPics/BoulderMovement.jpeg'),
         branches: [
           {
-            name: 'Gym A',
+            name: 'Bugis',
+            image: require('../assets/gym.png'),
+          },
+          {
+            name: 'DownTown',
+            image: require('../assets/gym.png'),
+          },
+          {
+            name: 'Rochor',
+            image: require('../assets/gym.png'),
+          },
+          {
+            name: 'Tai Seng',
             image: require('../assets/gym.png'),
           },
         ],

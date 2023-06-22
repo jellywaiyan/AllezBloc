@@ -7,11 +7,14 @@ import SignUpScreen from '../screens/SignUpScreen/SignUpScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen/ResetPasswordScreen';
 import ConfirmEmailScreen from '../screens/ConfirmEmailScreen/ConfirmEmailScreen';
-import Home from '../screens/Home/Home';
 import { Auth, Hub } from 'aws-amplify';
 import { StyleSheet } from 'react-native';
 import ChatScreen from '../screens/ChatScreen/ChatScreen';
 import InChatScreen from '../screens/InChatScreen/InChatScreen';
+import { HOMECOLOURS } from '../assets/color';
+import GymScreen from '../screens/GymScreen/GymScreen';
+import MainTabNavigator from './MainTabNavigator';
+import FriendsListScreen from '../screens/FriendsListScreen/FriendsListScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,12 +58,16 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown:false}}>
-                {user ? (        
-                    <>
-            <Stack.Screen name= "Home"component={Home}/> 
+                {user ? (       
+                   // <Stack.Screen name= "GymScreen"component={GymScreen}/>  
+                    <>     
+            <Stack.Screen name="HomePage" component={MainTabNavigator}/>   
             <Stack.Screen name= "Chats" component={ChatScreen}/>
             <Stack.Screen name= "Chat" component={InChatScreen}
-            options={{headerShown:true}}
+            options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}
+            />
+            <Stack.Screen name="Friends List" component={FriendsListScreen}
+            options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}
             />
             </> 
                 ) : (

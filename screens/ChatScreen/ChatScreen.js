@@ -8,12 +8,12 @@ import { FlatList } from 'react-native-gesture-handler';
 
 const ChatScreen = () => {
     return (
-        <SafeAreaView>
+        <View style={{backgroundColor:HOMECOLOURS.dullwhite}}>
         <FlatList
         data={chats}
         renderItem={({item}) => <ChatListItem chat={item} />}
         />
-        </SafeAreaView>
+        </View>
     );
 }
 

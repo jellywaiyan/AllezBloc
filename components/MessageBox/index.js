@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, TextInput,TouchableOpacity,Image } from 'react-native';
+import { HOMECOLOURS } from '../../assets/color';
 //import {AntDesign, MaterialIcons} from "@expo/vector-icons"
 
 
@@ -41,24 +42,24 @@ export default MessageBox;
 const styles = StyleSheet.create({
     container: {
       flexDirection: "row",
-      backgroundColor: "whitesmoke",
+      backgroundColor: HOMECOLOURS.dullwhite,
       alignItems: "center",
     },
     input: {
       fontSize: 17,
-      flex: 1,
+      flex: 0.95,
       backgroundColor: "white",
-      padding: 5,
+      padding: 8,
       paddingHorizontal: 10,
       marginHorizontal: 5,
       borderRadius: 40,
-      borderWidth: StyleSheet.hairlineWidth,
+      borderWidth: StyleSheet.hairlineWdth,
       borderColor: "gray",
     },
     send: {
       backgroundColor: "#3FADF7",
       padding: 7,
-      borderRadius: 15,
+      borderRadius:10,
       overflow: "hidden",
     },
   });
