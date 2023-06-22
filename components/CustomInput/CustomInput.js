@@ -19,6 +19,7 @@ const CustomInput = ({control, name, placeHolder, rules={} , secureTextEntry, to
             placeholder={placeHolder}
             style={[styles.input, {}]}
             secureTextEntry={secureTextEntry}
+            autoCapitalize='none'
             />
         </View>
         {error && <Text style={[top ? {top:top - 5} : top,

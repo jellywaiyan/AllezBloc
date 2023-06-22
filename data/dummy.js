@@ -5,7 +5,7 @@ export const Categories = [
       branches: [
         {
             name: 'Orchard',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BoulderWorld.png'),
         },
       ],
     },
@@ -15,11 +15,11 @@ export const Categories = [
         branches: [
           {
             name: 'Sembawang',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BoulderPlanet.png'),
           },
           {
             name: 'Tai Seng',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BoulderPlanet.png'),
           },
         ],
       },
@@ -29,7 +29,7 @@ export const Categories = [
         branches: [
           {
             name: 'Chinatown',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/OriginLogo.png'),
           },
         ],
       },
@@ -39,11 +39,11 @@ export const Categories = [
         branches: [
           {
             name: 'Bendemeer',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BFFClimb.png'),
           },
           {
             name: 'Bukit Timah',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BFFClimb.png'),
           },
         ],
       },
@@ -53,19 +53,19 @@ export const Categories = [
         branches: [
           {
             name: 'Bugis',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BoulderMovement.jpeg'),
           },
           {
             name: 'DownTown',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BoulderMovement.jpeg'),
           },
           {
             name: 'Rochor',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BoulderMovement.jpeg'),
           },
           {
             name: 'Tai Seng',
-            image: require('../assets/gym.png'),
+            image: require('../assets/GymPics/BoulderMovement.jpeg'),
           },
         ],
       }
