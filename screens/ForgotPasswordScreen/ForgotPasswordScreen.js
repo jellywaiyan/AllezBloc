@@ -43,7 +43,7 @@ const ForgotPasswordScreen = (data) => {
           <Image 
           style={styles.logo}
           resizeMode='contain'
-          source={require('../../assets/AllezBlocAppLogo.jpg')}
+          source={require('../../assets/AllezBlocLogoFinal.jpg')}
           />
           <Text style={styles.title}>Reset Your Password</Text>
           <Text

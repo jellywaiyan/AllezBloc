@@ -2,11 +2,9 @@ import React, {useState} from 'react';
 import { useCallback } from 'react';
 import {StyleSheet, Text, 
   View, Image, ScrollView, Alert} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import { SendButton } from 'stream-chat-expo';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
@@ -45,7 +43,7 @@ const ResetPasswordScreen = (data) => {
           <Image 
           style={styles.logo}
           resizeMode='contain'
-          source={require('../../assets/AllezBlocAppLogo.jpg')}
+          source={require('../../assets/AllezBlocLogoFinal.jpg')}
           />
           <Text style={styles.title}>Reset Your Password</Text>
           <CustomInput

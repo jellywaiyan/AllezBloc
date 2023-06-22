@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import { useCallback } from 'react';
 import {StyleSheet, Text, 
   View, Image, ScrollView, Alert} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -57,7 +56,7 @@ const SignUpScreen = () => {
           <Image 
           style={styles.logo}
           resizeMode='contain'
-          source={require('../../assets/allezlogo.jpg')}
+          source={require('../../assets/AllezBlocLogoFinal.jpg')}
           />
           <Text style={styles.title}>Create Account</Text>
 

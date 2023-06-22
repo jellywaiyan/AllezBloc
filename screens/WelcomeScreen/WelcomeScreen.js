@@ -52,13 +52,14 @@ function WelcomeScreen(props) {
           <Image 
       style={[styles.logo, {bottom:20}]}
       resizeMode='contain'
-      source={require("../../assets/allezlogo.jpg")}
+      source={require("../../assets/AllezBlocLogoFinal.jpg")}
       />
       <Text style={{
         fontSize:20, 
+        fontWeight:'400',
         color:"black", 
-        textShadowRadius:6,
-        textShadowOffset:{width:3,height:3},
+        textShadowRadius:2,
+        textShadowOffset:{width:0.1,height:0.1},
         textShadowColor:'#317DFF',}}>
             ALLEZBLOC
           </Text>

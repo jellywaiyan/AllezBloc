@@ -54,13 +54,13 @@ const Navigation = () => {
     
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{headerShown:false}}>
                 {user ? (        
-            //<Stack.Screen name= "Home"component={Home}/> 
                     <>
-            <Stack.Screen name= "Chats" component={ChatScreen}
-            options={{headerShown:false}}/>
+            <Stack.Screen name= "Home"component={Home}/> 
+            <Stack.Screen name= "Chats" component={ChatScreen}/>
             <Stack.Screen name= "Chat" component={InChatScreen}
+            options={{headerShown:true}}
             />
             </> 
                 ) : (
