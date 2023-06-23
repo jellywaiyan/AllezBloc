@@ -12,10 +12,10 @@ const ChatListItem = ({ chat }) => {
     return (
 
         <TouchableOpacity 
-        onPress={() => navigation.navigate("Chat", {id: chat.id, name: chat.user.name})}
+        onPress={() => navigation.navigate("Chat", {id: chat.id, name: chat.user?.name})}
         style={styles.container}>
             <Image 
-            source={{uri: chat.user.image}}
+            source={{uri: chat.user?.image}}
             style={styles.profilePic}
             />
             <View style={styles.content}>
@@ -23,14 +23,14 @@ const ChatListItem = ({ chat }) => {
                     <Text 
                     numberOfLines={1}
                     style={styles.name}>
-                        {chat.user.name}
+                        {chat.user?.name}
                     </Text>
-                    <Text style={styles.subTitle}>{dayjs(chat.lastMessage.timeSent).fromNow(true)}</Text>
+                    <Text style={styles.subTitle}>{dayjs(chat.lastMessage?.timeSent).fromNow(true)}</Text>
                 </View>
                 <Text 
                 numberOfLines={2}
                 style={styles.subTitle}>
-                {chat.lastMessage.text}
+                {chat.lastMessage?.text}
                 </Text>
             </View>
         </TouchableOpacity>
