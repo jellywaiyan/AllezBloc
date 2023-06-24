@@ -5,13 +5,15 @@ export const getChatRoom = /* GraphQL */ `
   query GetChatRoom($id: ID!) {
     getChatRoom(id: $id) {
       id
+      name
+      image
       Messages {
         items {
           id
+          createdAt
           text
           chatroomID
           userID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -40,10 +42,10 @@ export const getChatRoom = /* GraphQL */ `
       }
       LastMessage {
         id
+        createdAt
         text
         chatroomID
         userID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -69,6 +71,8 @@ export const listChatRooms = /* GraphQL */ `
     listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        name
+        image
         Messages {
           nextToken
           startedAt
@@ -81,10 +85,10 @@ export const listChatRooms = /* GraphQL */ `
         }
         LastMessage {
           id
+          createdAt
           text
           chatroomID
           userID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -120,6 +124,8 @@ export const syncChatRooms = /* GraphQL */ `
     ) {
       items {
         id
+        name
+        image
         Messages {
           nextToken
           startedAt
@@ -132,10 +138,10 @@ export const syncChatRooms = /* GraphQL */ `
         }
         LastMessage {
           id
+          createdAt
           text
           chatroomID
           userID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -160,10 +166,10 @@ export const getMessage = /* GraphQL */ `
   query GetMessage($id: ID!) {
     getMessage(id: $id) {
       id
+      createdAt
       text
       chatroomID
       userID
-      createdAt
       updatedAt
       _version
       _deleted
@@ -181,10 +187,10 @@ export const listMessages = /* GraphQL */ `
     listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        createdAt
         text
         chatroomID
         userID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -212,10 +218,10 @@ export const syncMessages = /* GraphQL */ `
     ) {
       items {
         id
+        createdAt
         text
         chatroomID
         userID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -228,16 +234,18 @@ export const syncMessages = /* GraphQL */ `
     }
   }
 `;
-export const messagesByChatroomID = /* GraphQL */ `
-  query MessagesByChatroomID(
+export const listMessagesByChatRoom = /* GraphQL */ `
+  query ListMessagesByChatRoom(
     $chatroomID: ID!
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelMessageFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    messagesByChatroomID(
+    listMessagesByChatRoom(
       chatroomID: $chatroomID
+      createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -245,10 +253,10 @@ export const messagesByChatroomID = /* GraphQL */ `
     ) {
       items {
         id
+        createdAt
         text
         chatroomID
         userID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -278,10 +286,10 @@ export const messagesByUserID = /* GraphQL */ `
     ) {
       items {
         id
+        createdAt
         text
         chatroomID
         userID
-        createdAt
         updatedAt
         _version
         _deleted
@@ -304,10 +312,10 @@ export const getUser = /* GraphQL */ `
       Messages {
         items {
           id
+          createdAt
           text
           chatroomID
           userID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -427,6 +435,8 @@ export const getUserChatRoom = /* GraphQL */ `
       userId
       chatRoom {
         id
+        name
+        image
         Messages {
           nextToken
           startedAt
@@ -439,10 +449,10 @@ export const getUserChatRoom = /* GraphQL */ `
         }
         LastMessage {
           id
+          createdAt
           text
           chatroomID
           userID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -501,6 +511,8 @@ export const listUserChatRooms = /* GraphQL */ `
         userId
         chatRoom {
           id
+          name
+          image
           createdAt
           updatedAt
           _version
@@ -553,6 +565,8 @@ export const syncUserChatRooms = /* GraphQL */ `
         userId
         chatRoom {
           id
+          name
+          image
           createdAt
           updatedAt
           _version
@@ -607,6 +621,8 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `
         userId
         chatRoom {
           id
+          name
+          image
           createdAt
           updatedAt
           _version
@@ -661,6 +677,8 @@ export const userChatRoomsByUserId = /* GraphQL */ `
         userId
         chatRoom {
           id
+          name
+          image
           createdAt
           updatedAt
           _version

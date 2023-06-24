@@ -2,20 +2,48 @@ import { View, Image, Text, StyleSheet,Pressable } from "react-native"
 import { HOMECOLOURS } from "../../assets/color";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useEffect, useState } from "react";
+import { Auth, API, graphqlOperation } from "aws-amplify";
+import { onUpdateChatRoom } from "../../src/graphql/subscriptions";
 
+dayjs.extend(relativeTime);
 const ChatListItem = ({ chat }) => {
 
   const navigation = useNavigation();
+  const [user, setUser] = useState(null);
+  const [chatRoom, setChatRoom] = useState(chat);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const authUser = await Auth.currentAuthenticatedUser();
+
+      const userItem = chatRoom.users.items.find(item => item.user.id !== authUser.attributes.sub);
+      setUser(userItem?.user);
+    }
+    getUser();
+  },[]);
+
+  useEffect(() => {
+        const chatRoomSubscription = API.graphql(graphqlOperation(
+          onUpdateChatRoom, { filter: { id: { eq: chat.id }}}
+        )).subscribe({
+          next: ({ value }) => {
+            setChatRoom(chatrm => ({...chatrm || {}, ...value.data.onUpdateChatRoom}));
+          },
+          error: (e) => console.warn(e),
+        })
+        return () => chatRoomSubscription.unsubscribe();
+  }, [chat.id])
+
     return (
 
         <TouchableOpacity 
-        onPress={() => navigation.navigate("Chat", {id: chat.id, name: chat.user.name})}
+        onPress={() => navigation.navigate("Chat", {id: chatRoom.id, name: user?.name})}
         style={styles.container}>
             <Image 
-            source={{uri: chat.user.image}}
+            source={{uri: user?.image}}
             style={styles.profilePic}
             />
             <View style={styles.content}>
@@ -23,14 +51,16 @@ const ChatListItem = ({ chat }) => {
                     <Text 
                     numberOfLines={1}
                     style={styles.name}>
-                        {chat.user.name}
+                        {user?.name}
                     </Text>
-                    <Text style={styles.subTitle}>{dayjs(chat.lastMessage.timeSent).fromNow(true)}</Text>
+                    {chatRoom.LastMessage && (<Text style={styles.subTitle}>
+                      {dayjs(chatRoom.LastMessage?.timeSent).fromNow(true)}
+                      </Text>)}
                 </View>
                 <Text 
                 numberOfLines={2}
                 style={styles.subTitle}>
-                {chat.lastMessage.text}
+                {chatRoom.LastMessage?.text}
                 </Text>
             </View>
         </TouchableOpacity>

@@ -74,12 +74,22 @@ const GymScreen = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <FontAwesome
+            {/* <FontAwesome
               name="angle-right"
               style={{
                 fontSize: 12,
                 color: currentSelected == index ? HOMECOLOURS.black : HOMECOLOURS.white,
               }}
+            /> */}
+            <Image source={
+              currentSelected !== index 
+              ? require("../../assets/Logos/FAAngleRight.png")
+              : require("../../assets/Logos/FAAngleDown.png")
+            }
+            style={{height:30, width:30, 
+              backgroundColor: currentSelected == index ? HOMECOLOURS.accentRed : HOMECOLOURS.white,
+            borderRadius:20
+            }}
             />
           </View>
         </View>
@@ -125,6 +135,7 @@ const GymScreen = () => {
                     width: '100%',
                     height: '100%',
                     resizeMode: 'contain',
+                    borderRadius:10,
                     }}
                 />
             </View>
@@ -155,9 +166,12 @@ const GymScreen = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Entypo
+              {/* <Entypo
                 name="plus"
                 style={{fontSize: 18, color: HOMECOLOURS.black}}
+              /> */}
+              <Image source={require("../../assets/plusicon.png")}
+              style={{height:40, width:40}}
               />
             </View>
           </View>
@@ -209,14 +223,7 @@ const GymScreen = () => {
             <TouchableOpacity
             onPress={signOut}
             > 
-              <Material
-                name="segment"
-                style={{
-                  fontSize: 28,
-                  color: HOMECOLOURS.black, right: 15
-                }}
-              />
-            <Text style={{right:30}}>Sign out</Text>
+            <Text style={{top:16,right:30, fontSize:20}}>Sign out</Text>
             </TouchableOpacity>
           </SafeAreaView>
           <View style={{padding: 20}}>
@@ -237,9 +244,8 @@ const GymScreen = () => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Ionicons
-              name="search"
-              style={{fontSize: 20, color: HOMECOLOURS.black, opacity: 0.8}}
+            <Image source={require("../../assets/Logos/searchIcon.png")}
+            style={{height:28, width:28}}
             />
             <TextInput
               placeholder="Search..."

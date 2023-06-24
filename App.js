@@ -12,6 +12,7 @@ import { createUser } from "./src/graphql/mutations";
 Amplify.configure(awsExports);
 
 const App = () => {
+  
   useEffect(() => {
     const syncUser = async () => {
       const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
@@ -28,7 +29,6 @@ const App = () => {
         name: "Placeholder",
         status: "Hello! I'm free to climb!",
       };
-
       const newUserResponse = await API.graphql(
         graphqlOperation(createUser, {input: newUser}));
     };

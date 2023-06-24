@@ -49,7 +49,7 @@ const Navigation = () => {
     //             <Image 
     //   style={[styles.logo, {bottom:20}]}
     //   resizeMode='contain'
-    //   source={require("./../assets/allezlogo.jpg")}/>
+    //   source={require("./../assets/AllezBlocLogoFinal.jpg")}/>
     //   <Text>AllezBloc</Text>
     //         </View>
     //     );

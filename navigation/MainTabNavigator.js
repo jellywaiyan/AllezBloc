@@ -26,7 +26,7 @@ const MainTabNavigator = () => {
             component={UploadPage}
             options={{tabBarIcon: () => (<Image source={require("../assets/Logos/UploadLogo.png")} style={styles.logo}/>),}}
             />
-            <Tab.Screen name="GymScreen" component={GymScreen}
+            <Tab.Screen name="Gyms" component={GymScreen}
             options={{headerShown:false, tabBarIcon: () => (<Image source={require("../assets/Logos/GymScreenLogo.png")} style={{height:35, width:35}}/>),}}
             />
             <Tab.Screen name= "Home" component={HomePage}
