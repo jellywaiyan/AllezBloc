@@ -1,16 +1,30 @@
 import { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, TextInput,TouchableOpacity,Image } from 'react-native';
 import { HOMECOLOURS } from '../../assets/color';
-//import {AntDesign, MaterialIcons} from "@expo/vector-icons"
+import { API, graphqlOperation, Auth } from 'aws-amplify';
+import { createMessage, updateChatRoom } from '../../src/graphql/mutations';
 
+const MessageBox = ({ chatroom }) => {
 
-const MessageBox = () => {
+const [text, setText] = useState('');
 
-const [newText, setNewText] = useState('');
+const onSend = async () => {
+    const authUser = await Auth.currentAuthenticatedUser();
 
-const onSend = () => {
-    console.warn("Sending message", newText);
-    setNewText('');
+    const newMessage = {
+      chatroomID: chatroom.id,
+      text,
+      userID: authUser.attributes.sub,
+    }
+    const newTextData = await API.graphql(graphqlOperation(createMessage, { input: newMessage }));
+   
+    setText("");
+
+    await API.graphql(graphqlOperation(
+      updateChatRoom, { input: {
+        _version: chatroom._version, 
+        chatRoomLastMessageId: newTextData.data.createMessage.id, 
+        id: chatroom.id}}))
 }
 
     return (
@@ -22,8 +36,8 @@ const onSend = () => {
         />
       </TouchableOpacity>
       <TextInput 
-      value={newText}
-      onChangeText={setNewText}
+      value={text}
+      onChangeText={setText}
       placeholder='Message'
       style={styles.input}
       />
