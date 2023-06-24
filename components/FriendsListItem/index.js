@@ -1,23 +1,29 @@
 import {Image, Text, StyleSheet, View } from "react-native"
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { createChatRoom, createUserChatRoom } from "../../src/graphql/mutations";
+import { findOverlappingChatRooms } from "../../services/chatRoomService";
 
+dayjs.extend(relativeTime);
 const FriendsListItem = ({ user }) => {
 
   const navigation = useNavigation();
 
   const onPress = async () => {
-    console.warn("Pressed");
     //See if there's already a chat room with the user selected
+    const existingChatRoom = await findOverlappingChatRooms(user.id);
+    if (existingChatRoom) {
+      navigation.navigate("Chat", { id: existingChatRoom.id })
+      return;
+    }
+
     const newChatData = await API.graphql(
       graphqlOperation(createChatRoom, { input: {}})
       );
-      
+
       if (!newChatData.data?.createChatRoom) {
         console.log("Error creating chat");
       }

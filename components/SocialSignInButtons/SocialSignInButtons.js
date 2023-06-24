@@ -10,7 +10,7 @@ const SocialSignInButtons = ({top}) => {
     return (
         <>
             <CustomButton
-          text="Sign In With Google"
+          text="Sign In With Google(WIP)"
           onPress={onSignInGoogle}
           bgColor="#FAE9EA"
           fgColor="#DD4D44"
