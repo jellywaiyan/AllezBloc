@@ -1,9 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatScreen from "../screens/ChatScreen/ChatScreen";
 import GymScreen from "../screens/GymScreen/GymScreen";
-import HomePage from "../screens/HomePage/HomePage";
 import ProfilePage from "../screens/ProfilePage/ProfilePage";
-import UploadPage from "../screens/UploadPage/UploadPage";
+import RecordScreen from "../screens/RecordScreen/RecordScreen";
 import { Image, Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons"
 import { HOMECOLOURS } from "../assets/color";
@@ -14,7 +13,7 @@ const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
     return (
-        <Tab.Navigator initialRouteName="Home"
+        <Tab.Navigator initialRouteName="Gyms"
         screenOptions={{tabBarInactiveBackgroundColor:HOMECOLOURS.dullwhite,
         tabBarActiveBackgroundColor:"lightgray",
         tabBarLabelStyle:{fontWeight:"bold"},
@@ -22,15 +21,12 @@ const MainTabNavigator = () => {
         }}
         >
             <Tab.Screen 
-            name= "Upload" 
-            component={UploadPage}
-            options={{tabBarIcon: () => (<Image source={require("../assets/Logos/UploadLogo.png")} style={styles.logo}/>),}}
+            name= "Record" 
+            component={RecordScreen}
+            options={{headerShown:false,tabBarIcon: () => (<Image source={require("../assets/Logos/UploadLogo.png")} style={styles.logo}/>),}}
             />
             <Tab.Screen name="Gyms" component={GymScreen}
             options={{headerShown:false, tabBarIcon: () => (<Image source={require("../assets/Logos/GymScreenLogo.png")} style={{height:35, width:35}}/>),}}
-            />
-            <Tab.Screen name= "Home" component={HomePage}
-            options={{tabBarIcon: () => (<Image source={require("../assets/Logos/HomeLogo.png")} style={{height:35, width:35}}/>),}}
             />
             <Tab.Screen name= "Chats" component={ChatScreen}
             options={({ navigation }) => ({

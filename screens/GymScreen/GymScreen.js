@@ -98,6 +98,7 @@ const GymScreen = () => {
   };
 
   const renderBranch = (data, index) => {
+
     return (
       <TouchableOpacity
         key={index}
@@ -109,12 +110,7 @@ const GymScreen = () => {
           alignItems: 'center',
           elevation : 5
         }}
-        onPress={() =>
-          navigation.push('details', {
-            name: data.name,
-            image: data.image,
-          })
-        }>
+        onPress={() => navigation.navigate("Videos")}>
         <View
           style={{
             width: '93%',

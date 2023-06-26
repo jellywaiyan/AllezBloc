@@ -12,9 +12,9 @@ import { StyleSheet } from 'react-native';
 import ChatScreen from '../screens/ChatScreen/ChatScreen';
 import InChatScreen from '../screens/InChatScreen/InChatScreen';
 import { HOMECOLOURS } from '../assets/color';
-import GymScreen from '../screens/GymScreen/GymScreen';
 import MainTabNavigator from './MainTabNavigator';
 import FriendsListScreen from '../screens/FriendsListScreen/FriendsListScreen';
+import VideoScreen from '../screens/VideoScreen/VideoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,8 +61,10 @@ const Navigation = () => {
                 {user ? (       
                    // <Stack.Screen name= "GymScreen"component={GymScreen}/>  
                     <>     
-            <Stack.Screen name="HomePage" component={MainTabNavigator}/>   
+            <Stack.Screen name="Gyms" component={MainTabNavigator}/>   
             <Stack.Screen name= "Chats" component={ChatScreen}/>
+            <Stack.Screen name= "Videos" component={VideoScreen}
+            options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}/>   
             <Stack.Screen name= "Chat" component={InChatScreen}
             options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}
             />
