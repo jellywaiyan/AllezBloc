@@ -102,20 +102,6 @@ export default function RecordScreen() {
                 />
                 : null}
 
-            <View style={styles.sideBarContainer}>
-                <TouchableOpacity
-                    style={styles.sideBarButton}
-                    onPress={() => setCameraType(cameraType === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back)}>
-                    <Text style={styles.iconText}>Flip</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={styles.sideBarButton}
-                    onPress={() => setCameraFlash(cameraFlash === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off)}>
-                    <Text style={styles.iconText}>Flash</Text>
-                </TouchableOpacity>
-            </View>
-
 
             <View style={styles.bottomBarContainer}>
                 <View style={{ flex: 1 }}></View>
