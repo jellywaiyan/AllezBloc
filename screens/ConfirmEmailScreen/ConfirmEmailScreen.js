@@ -58,7 +58,7 @@ const ConfirmEmailScreen = data => {
           <Image 
           style={styles.logo}
           resizeMode='contain'
-          source={require('../../assets/AllezBlocAppLogo.jpg')}
+          source={require('../../assets/AllezBlocLogoFinal.jpg')}
           />
           <Text style={styles.title}>Email Confirmation</Text>
 

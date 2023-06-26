@@ -26,7 +26,7 @@ const App = () => {
 
       const newUser = {
         id: authUser.attributes.sub,
-        name: "Placeholder",
+        name: authUser.attributes.name,
         status: "Hello! I'm free to climb!",
       };
       const newUserResponse = await API.graphql(

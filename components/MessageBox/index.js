@@ -41,7 +41,7 @@ const onSend = async () => {
       placeholder='Message'
       style={styles.input}
       />
-      <TouchableOpacity onPress={onSend}>
+      <TouchableOpacity onPress={text !== "" ? onSend : () => {}}>
         <Image 
         source={require("../../assets/fisticon.png")}
         style={{height:32, width:32,backgroundColor:"#6cd2f4", borderRadius:15}}
