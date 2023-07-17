@@ -20,7 +20,6 @@ const App = () => {
       const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub}));
 
       if (userData.data.getUser) {
-        console.log("User already exists in database");
         return;
       }
 
@@ -28,6 +27,7 @@ const App = () => {
         id: authUser.attributes.sub,
         name: authUser.attributes.name,
         status: "Hello! I'm free to climb!",
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/680px-Default_pfp.svg.png"
       };
       const newUserResponse = await API.graphql(
         graphqlOperation(createUser, {input: newUser}));

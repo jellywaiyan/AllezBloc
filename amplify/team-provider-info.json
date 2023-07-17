@@ -17,6 +17,9 @@
       },
       "api": {
         "AllezBloc": {}
+      },
+      "storage": {
+        "s3allezblocstorage27d071ca": {}
       }
     }
   }

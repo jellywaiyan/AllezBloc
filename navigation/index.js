@@ -61,7 +61,7 @@ const Navigation = () => {
                 {user ? (       
                    // <Stack.Screen name= "GymScreen"component={GymScreen}/>  
                     <>     
-            <Stack.Screen name="Gyms" component={MainTabNavigator}/>   
+            <Stack.Screen name="GymScreen" component={MainTabNavigator}/>   
             <Stack.Screen name= "Chats" component={ChatScreen}/>
             <Stack.Screen name= "Videos" component={VideoScreen}
             options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}/>   

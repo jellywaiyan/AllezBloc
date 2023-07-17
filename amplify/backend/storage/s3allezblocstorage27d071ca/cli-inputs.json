@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3allezblocstorage27d071ca",
+  "bucketName": "allezbloc-storage-27d071ca",
+  "policyUUID": "8b5142a8",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

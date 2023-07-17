@@ -11,8 +11,7 @@ const FriendsListScreen = () => {
 
     useEffect(() => {
         API.graphql(graphqlOperation(listUsers)).then((result) => {
-        console.log(result);
-        setUsers(result.data?.listUsers?.items);
+        setUsers(result?.data?.listUsers?.items);
     })
     },[])
     return (

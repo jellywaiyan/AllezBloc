@@ -30,7 +30,7 @@ const ChatListItem = ({ chat }) => {
           onUpdateChatRoom, { filter: { id: { eq: chat.id }}}
         )).subscribe({
           next: ({ value }) => {
-            setChatRoom(chatrm => ({...chatrm || {}, ...value.data.onUpdateChatRoom}));
+            setChatRoom((chatrm) => ({...(chatrm || {}), ...value.data.onUpdateChatRoom}));
           },
           error: (e) => console.warn(e),
         })

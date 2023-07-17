@@ -26,6 +26,7 @@ const InChatScreen = () =>{
         result => {
           setChatRoom(result.data?.getChatRoom);
         });
+
         const chatRoomSubscription = API.graphql(graphqlOperation(
           onUpdateChatRoom, { filter: { id: { eq: chatroomID }}}
         )).subscribe({
@@ -36,7 +37,8 @@ const InChatScreen = () =>{
         })
         return () => chatRoomSubscription.unsubscribe();
   }, [chatroomID])
-  //get messages
+
+  //get messages 
   useEffect(() => {
     API.graphql(graphqlOperation(
       listMessagesByChatRoom, { chatroomID, sortDirection: "DESC" })).then(
