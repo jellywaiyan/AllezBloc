@@ -1,14 +1,18 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import { HOMECOLOURS } from "../../assets/color";
-import { Auth } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { S3Image } from "aws-amplify-react-native";
+import ImageView from "react-native-image-viewing";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Message = ({ message }) => {
   const [isUser, setIsUser] = useState(false);
+  const [imageSources, setImageSources] = useState([]);
+  const [imageViewerVisible, setImageViewerVisible] = useState(false);
 
   useEffect(() => {
     const isMyMessage = async () => {
@@ -17,6 +21,17 @@ const Message = ({ message }) => {
     };
     isMyMessage();
   }, [])
+
+  useEffect(() => {
+    const downloadImages = async () => {
+      if (message.images) {
+        const imageUrls = await Promise.all(message.images.map(Storage.get));
+  
+        setImageSources(imageUrls.map((uri) => ({ uri })));
+      }
+    };
+    downloadImages();
+  }, [message.images]);
 
   return (
     <View
@@ -30,11 +45,19 @@ const Message = ({ message }) => {
         },
       ]}
     >
-      {message.images?.length > 0 &&
-      <S3Image 
-      imgKey={message.images[0]}
-      style={styles.image}
-      />}
+      {message.images?.length > 0 && (
+        <>
+        <TouchableOpacity onPress={() => setImageViewerVisible(true)}>
+      <Image source={imageSources[0]} style={styles.image}/>
+      </TouchableOpacity>
+      <ImageView 
+      images={imageSources} 
+      imageIndex={0} 
+      visible={imageViewerVisible}
+      onRequestClose={() => setImageViewerVisible(false)}
+      />
+      </>
+      )}
       <Text>{message.text}</Text>
       <Text style={styles.time}>{dayjs(message.createdAt).fromNow()}</Text>
     </View>
@@ -68,7 +91,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 100,
     borderColor: "white",
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderRadius: 5,
   },
 });

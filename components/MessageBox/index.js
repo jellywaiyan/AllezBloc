@@ -6,13 +6,20 @@ import { createMessage, updateChatRoom } from '../../src/graphql/mutations';
 import * as ImagePicker from "expo-image-picker";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
 
 const MessageBox = ({ chatroom }) => {
 
 const [text, setText] = useState('');
 const [image, setImage] = useState(null);
+const [loading, setLoading] = useState(false);
+const {control, handleSubmit, formState:{errors}} = useForm();
 
 const onSend = async () => {
+  if (loading) {
+    return;
+  }
+  setLoading(true);
     const authUser = await Auth.currentAuthenticatedUser();
 
     const newMessage = {
@@ -29,7 +36,7 @@ const onSend = async () => {
     const newTextData = await API.graphql(graphqlOperation(createMessage, { input: newMessage }));
    
     setText("");
-
+    setLoading(false);
     await API.graphql(graphqlOperation(
       updateChatRoom, { input: {
         _version: chatroom._version, 
@@ -99,7 +106,7 @@ const uploadFile = async (fileUri) => {
         placeholder='Message'
         style={styles.input}
         />
-        <TouchableOpacity onPress={text !== "" ? onSend : () => {}}>
+        <TouchableOpacity onPress={image || text.trim()!== "" ? handleSubmit(onSend) : () => {}}>
           <Image 
           source={require("../../assets/fisticon.png")}
           style={{height:32, width:32,backgroundColor:"#6cd2f4", borderRadius:15}}
