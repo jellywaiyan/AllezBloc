@@ -3,13 +3,11 @@ import { View, Text, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HOMECOLOURS } from '../../assets/color';
 import FriendsListItem from '../../components/FriendsListItem';
-import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { API,graphqlOperation } from 'aws-amplify';
 import {listUsers} from "../../src/graphql/queries"
 
 const FriendsListScreen = () => {
     const [users, setUsers] = useState([]);
-    const authUser = Auth.currentAuthenticatedUser();
-
     useEffect(() => {
         API.graphql(graphqlOperation(listUsers)).then((result) => {
         setUsers(result?.data?.listUsers?.items);

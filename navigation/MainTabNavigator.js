@@ -7,11 +7,27 @@ import { Image, Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons"
 import { HOMECOLOURS } from "../assets/color";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Auth, API, graphqlOperation } from "aws-amplify";
+import { useState, useEffect } from "react";
+import { getUser } from "../src/graphql/queries";
 
 const Tab = createBottomTabNavigator();
 
 
 const MainTabNavigator = () => {
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const syncUser = async () => {
+      const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
+
+      const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub}));
+      setUserData(userData.data.getUser);
+      return;
+    }
+    syncUser();
+  },[]);
+
     return (
         <Tab.Navigator initialRouteName="Gyms"
         screenOptions={{tabBarInactiveBackgroundColor:HOMECOLOURS.dullwhite,
@@ -42,7 +58,7 @@ const MainTabNavigator = () => {
         })}
             />
             <Tab.Screen name= "Profile" component={ProfilePage}
-            options={{tabBarIcon: () => (<Image source={require("../assets/Logos/ProfilePageLogo.png")} style={{height:30, width:30}}/>),}}
+            options={{tabBarIcon: () => (<Image source={{uri: userData.image}} style={{height:30, width:30}}/>),}}
             />
         </Tab.Navigator>
     )

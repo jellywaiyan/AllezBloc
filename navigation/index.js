@@ -35,33 +35,33 @@ const Navigation = () => {
         checkUser();
     }, [])
 
-    // useEffect(() => {
-    //     const listener = data => {
-    //         console.log(data);
-    //     };
+    useEffect(() => {
+        const listener = data => {
+            if (data.payload.event === 'signIn' || data.payload.event === 'signOut') {
+                checkUser();
+            }
+        };
+        Hub.listen("auth", listener);
+    }, []);
 
-    //     Hub.listen("auth", listener);
-    // }, []);
-
-    // if (user == undefined) {
-    //     return (
-    //         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-    //             <Image 
-    //   style={[styles.logo, {bottom:20}]}
-    //   resizeMode='contain'
-    //   source={require("./../assets/AllezBlocLogoFinal.jpg")}/>
-    //   <Text>AllezBloc</Text>
-    //         </View>
-    //     );
-    // };
+    if (user === undefined) {
+        return (
+            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                <Image 
+      style={[styles.logo, {bottom:20}]}
+      resizeMode='contain'
+      source={require("./../assets/AllezBlocLogoFinal.jpg")}/>
+      <Text>AllezBloc</Text>
+            </View>
+        );
+    };
     
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown:false}}>
                 {user ? (       
-                   // <Stack.Screen name= "GymScreen"component={GymScreen}/>  
                     <>     
-            <Stack.Screen name="GymScreen" component={MainTabNavigator}/>   
+            <Stack.Screen name="Gym" component={MainTabNavigator}/>   
             <Stack.Screen name= "Chats" component={ChatScreen}/>
             <Stack.Screen name= "Videos" component={VideoScreen}
             options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}/>   

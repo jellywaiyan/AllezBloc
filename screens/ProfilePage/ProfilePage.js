@@ -1,13 +1,77 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { HOMECOLOURS } from '../../assets/color';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
+import {getUser} from "../../src/graphql/queries"
 
 const ProfilePage = () => {
-    return (
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    const syncUser = async () => {
+      const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
+
+      const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub}));
+      setUserData(userData.data.getUser);
+      return;
+    }
+    syncUser();
+  },[]);
+
+  return (
         <View style={{flex: 1,backgroundColor:HOMECOLOURS.dullwhite}}>
-          <Text>PROFILE</Text>  
+          <ScrollView 
+          style={styles.container}
+          contentContainerStyle={{justifyContent:"center", alignItems:'center'}}
+          showsVerticalScrollIndicator={false}
+          >
+            <Image 
+            style={styles.profilePic}
+            source={{uri : userData.image}}/>
+            <Text style={styles.usernameStyle}>{userData.name}</Text>
+            <Text style={styles.subTitle}>{userData.status}</Text>
+            <TouchableOpacity style={styles.editButton}>
+              <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Edit Profile</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
     );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding:20
+  },
+  profilePic: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+  },
+  usernameStyle: {
+    fontWeight: "bold",
+    fontSize:18,
+    marginTop:10,
+    marginBottom:10
+  },
+  content: {
+    flex:1,
+  },
+  subTitle: {
+    fontSize:12,
+    fontWeight:"600",
+    textAlign:"center",
+    marginBottom:10
+  },
+  editButton: {
+    width: '35%',
+    padding:15,
+    marginVertical:10,
+    alignItems:'center',
+    borderRadius:35,
+    backgroundColor:"lightgray"
+},
+});
 
 export default ProfilePage;

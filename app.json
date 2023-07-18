@@ -2,14 +2,16 @@
   "expo": {
     "name": "AllezBloc",
     "slug": "AllezBloc",
+    "privacy": "public",
+    "description": "Social Media app for climbers",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash2.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#EEEADE"
     },
     "assetBundlePatterns": [
       "**/*"

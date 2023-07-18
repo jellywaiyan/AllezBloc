@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import { useCallback } from 'react';
 import {StyleSheet, Text, 
   View, Image, ScrollView, Alert} from 'react-native';
-import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons';
@@ -42,14 +40,6 @@ const SignUpScreen = () => {
   const onPrivacyPolicyPressed = () => {
     console.warn("Private");
   }
-  // const [fontsLoaded] = useFonts({
-  //   'Horta': require('../assets/fonts/Horta_demo.ttf'),
-  // });
-
-  // const onLayoutRootView = useCallback([fontsLoaded]);
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
 
     return (
       <ScrollView style={{backgroundColor:HOMECOLOURS.dullwhite}}>

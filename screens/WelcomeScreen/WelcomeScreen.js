@@ -11,8 +11,6 @@ import { Auth } from 'aws-amplify';
 import { useForm } from 'react-hook-form';
 import { HOMECOLOURS } from '../../assets/color';
 
-//to do : change font
-
 function WelcomeScreen(props) {
   const {control, handleSubmit, formState:{errors}} = useForm();
   const navigation = useNavigation();
@@ -38,15 +36,7 @@ function WelcomeScreen(props) {
   const onSignUpPress = () => {
     navigation.navigate("Sign Up")
   }
-  // const [fontsLoaded] = useFonts({
-  //   'Horta': require('../assets/fonts/Horta_demo.ttf'),
-  // });
-
-  // const onLayoutRootView = useCallback([fontsLoaded]);
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
-
+  
     return (
       <ScrollView style={{backgroundColor:HOMECOLOURS.dullwhite}}>
         <View style={styles.container}>

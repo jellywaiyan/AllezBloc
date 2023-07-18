@@ -7,11 +7,12 @@ import * as ImagePicker from "expo-image-picker";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
+import { FlatList } from 'react-native-gesture-handler';
 
 const MessageBox = ({ chatroom }) => {
 
 const [text, setText] = useState('');
-const [image, setImage] = useState(null);
+const [images, setImages] = useState([]);
 const [loading, setLoading] = useState(false);
 const {control, handleSubmit, formState:{errors}} = useForm();
 
@@ -28,9 +29,9 @@ const onSend = async () => {
       userID: authUser.attributes.sub,
     }
 
-    if (image) {
-      newMessage.images = [await uploadFile(image)];
-      setImage(null);
+    if (images) {
+      newMessage.images = await Promise.all(images.map(uploadFile));
+      setImages([]);
     }
 
     const newTextData = await API.graphql(graphqlOperation(createMessage, { input: newMessage }));
@@ -49,10 +50,17 @@ const pickImage = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
     quality: 1,
+    allowsMultipleSelection: true,
   });
 
   if (!result.canceled) {
-    setImage(result.assets[0].uri);
+    if (result.assets.length > 1) {
+      // user selected multiple pics/vids
+      setImages(result.assets.map(x => x.uri));
+      return;
+    } else {
+    setImages([result.assets[0].uri]);
+    }
   }
 };
 
@@ -73,21 +81,31 @@ const uploadFile = async (fileUri) => {
 
     return (
       <>
-       {image && (
+       {images.length > 0 && (
         <View style={styles.attachmentsContainer}>
-          <Image 
-          source={{ uri: image }} 
+          <FlatList 
+          data={images}
+          horizontal
+          renderItem={({item}) => (
+            <>
+            <Image 
+          source={{ uri: item }} 
           style={styles.chosenImage}
           resizeMode='contain'
           />
           <Pressable
-          onPress={() => setImage(null)}
+          onPress={() => setImages((existingImages) =>
+            existingImages.filter((img) => img !== item)
+            )}
           >
             <Image 
             source={require("../../assets/cancelIcon.png")}
-            style={{height:20, width:20, bottom:105, right:5}}
+            style={{height:20, width:20, bottom:90, right:0, position:"absolute"}}
             />
           </Pressable>
+            </>
+          )}
+          />
         </View>
        )}
 
@@ -106,7 +124,7 @@ const uploadFile = async (fileUri) => {
         placeholder='Message'
         style={styles.input}
         />
-        <TouchableOpacity onPress={image || text.trim()!== "" ? handleSubmit(onSend) : () => {}}>
+        <TouchableOpacity onPress={images || text.trim()!== "" ? handleSubmit(onSend) : () => {}}>
           <Image 
           source={require("../../assets/fisticon.png")}
           style={{height:32, width:32,backgroundColor:"#6cd2f4", borderRadius:15}}
@@ -159,16 +177,3 @@ const styles = StyleSheet.create({
 	  },
   });
 
-  /*
-   <SafeAreaView style={styles.container}>
-      <AntDesign name="plus" size={24} color="#3FADF7" />
-      <TextInput style={styles.input} />
-      <MaterialIcons 
-      style={styles.send} 
-      name="send" 
-      size={24} 
-      color="white" 
-      onPress={onSend}
-      />
-    </SafeAreaView>
-  */
