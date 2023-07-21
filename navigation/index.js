@@ -36,12 +36,21 @@ const Navigation = () => {
     }, [])
 
     useEffect(() => {
-        const listener = data => {
-            if (data.payload.event === 'signIn' || data.payload.event === 'signOut') {
-                checkUser();
-            }
-        };
-        Hub.listen("auth", listener);
+        // const listener = data => {
+        //     if (data.payload.event === 'signIn' || data.payload.event === 'signOut') {
+        //         checkUser();
+        //     }
+        // };
+        // Hub.listen("auth", listener);
+        /* start listening for messages */
+const hubListenerCancelToken = Hub.listen('auth', (data) => {
+    if (data.payload.event === 'signIn' || data.payload.event === 'signOut') {
+    checkUser();
+    }
+  });
+  
+  /* later */
+  return () => hubListenerCancelToken(); // stop listening for messages
     }, []);
 
     if (user === undefined) {

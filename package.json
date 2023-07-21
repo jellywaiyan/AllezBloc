@@ -36,6 +36,7 @@
     "expo-sharing": "~11.2.2",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "^0.18.10",
     "react": "18.2.0",
     "react-hook-form": "^7.45.0-next.1",
     "react-native": "0.71.8",
