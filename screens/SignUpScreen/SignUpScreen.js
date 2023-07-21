@@ -80,7 +80,7 @@ const SignUpScreen = () => {
           />
           <CustomInput
           name="password"
-          placeHolder="Password"
+          placeHolder="Password (min 8 char, with at least 1 uppercase)"
           control={control}
           secureTextEntry={true}
           rules={{

@@ -29,15 +29,6 @@ const ForgotPasswordScreen = (data) => {
     navigation.navigate("Sign In");
   }
 
-  // const [fontsLoaded] = useFonts({
-  //   'Horta': require('../assets/fonts/Horta_demo.ttf'),
-  // });
-
-  // const onLayoutRootView = useCallback([fontsLoaded]);
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
-
     return (
       <ScrollView style={{backgroundColor:HOMECOLOURS.dullwhite}}>
         <View style={styles.container}>

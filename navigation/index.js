@@ -15,11 +15,13 @@ import { HOMECOLOURS } from '../assets/color';
 import MainTabNavigator from './MainTabNavigator';
 import FriendsListScreen from '../screens/FriendsListScreen/FriendsListScreen';
 import VideoScreen from '../screens/VideoScreen/VideoScreen';
+import ProfilePage from '../screens/ProfilePage/ProfilePage';
+import EditProfilePage from '../screens/EditProfilePage/EditProfilePage';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-    //After signin just refresh, will fix this at a later date
+
     const [user, setUser] = useState(undefined);
 
     const checkUser = async () => {
@@ -36,19 +38,12 @@ const Navigation = () => {
     }, [])
 
     useEffect(() => {
-        // const listener = data => {
-        //     if (data.payload.event === 'signIn' || data.payload.event === 'signOut') {
-        //         checkUser();
-        //     }
-        // };
-        // Hub.listen("auth", listener);
         /* start listening for messages */
 const hubListenerCancelToken = Hub.listen('auth', (data) => {
     if (data.payload.event === 'signIn' || data.payload.event === 'signOut') {
     checkUser();
     }
   });
-  
   /* later */
   return () => hubListenerCancelToken(); // stop listening for messages
     }, []);
@@ -80,6 +75,9 @@ const hubListenerCancelToken = Hub.listen('auth', (data) => {
             <Stack.Screen name="Friends List" component={FriendsListScreen}
             options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}
             />
+            <Stack.Screen name= "Profile" component={ProfilePage}/>
+            <Stack.Screen name= "Edit Profile" component={EditProfilePage} 
+            options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}/>
             </> 
                 ) : (
                 <>
