@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View,Text, ImageBackground,StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import bckgrnd from "../../assets/BG.png";
 import Message from '../../components/Message';
-import messages from "../../data/messages.json"
 import MessageBox from '../../components/MessageBox';
 import { KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

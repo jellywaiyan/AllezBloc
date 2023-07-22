@@ -25,7 +25,7 @@ const onSend = async () => {
 
     const newMessage = {
       chatroomID: chatroom.id,
-      text,
+      text: text.trim(),
       userID: authUser.attributes.sub,
     }
 
@@ -124,7 +124,7 @@ const uploadFile = async (fileUri) => {
         placeholder='Message'
         style={styles.input}
         />
-        <TouchableOpacity onPress={images || text.trim()!== "" ? handleSubmit(onSend) : () => {}}>
+        <TouchableOpacity onPress={images.length > 0 || text.trim().length != 0 ? handleSubmit(onSend) : () => {}}>
           <Image 
           source={require("../../assets/fisticon.png")}
           style={{height:32, width:32,backgroundColor:"#6cd2f4", borderRadius:15}}

@@ -52,7 +52,7 @@ const GymScreen = () => {
               style={{
                 width: '100%',
                 height: '100%',
-                resizeMode: 'center',
+                resizeMode: 'contain',
               }}
             />
           </View>
@@ -74,13 +74,7 @@ const GymScreen = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {/* <FontAwesome
-              name="angle-right"
-              style={{
-                fontSize: 12,
-                color: currentSelected == index ? HOMECOLOURS.black : HOMECOLOURS.white,
-              }}
-            /> */}
+
             <Image source={
               currentSelected !== index 
               ? require("../../assets/Logos/FAAngleRight.png")
@@ -135,7 +129,7 @@ const GymScreen = () => {
                     }}
                 />
             </View>
-            <View style={{marginBottom: 50 , position : 'relative' ,  right : 50}}>
+            <View style={{marginBottom: 50 ,  right : 50, bottom:40, position:"absolute"}}>
                 <Text
                 style={{
                     fontSize: 24,

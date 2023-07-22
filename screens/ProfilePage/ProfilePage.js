@@ -5,10 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import {getUser} from "../../src/graphql/queries"
+import { useNavigation } from '@react-navigation/native';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState([]);
 
+  const navigation = useNavigation();
+
+  const onEditPress = () => {
+    navigation.navigate("Edit Profile");
+  }
+  
   useEffect(() => {
     const syncUser = async () => {
       const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
@@ -32,13 +39,14 @@ const ProfilePage = () => {
             source={{uri : userData.image}}/>
             <Text style={styles.usernameStyle}>{userData.name}</Text>
             <Text style={styles.subTitle}>{userData.status}</Text>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={onEditPress}>
               <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Edit Profile</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
     );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
