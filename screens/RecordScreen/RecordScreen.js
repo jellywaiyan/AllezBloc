@@ -5,6 +5,7 @@ import { Audio } from 'expo-av'
 import * as ImagePicker from 'expo-image-picker'
 import * as MediaLibrary from 'expo-media-library'
 import { useIsFocused } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/native'
 
 
 import styles from './styles'
@@ -30,10 +31,12 @@ export default function RecordScreen() {
     const [isCameraReady, setIsCameraReady] = useState(false)
     const isFocused = useIsFocused()
 
+    const navigation = useNavigation()
+
     useEffect(() => {
         (async () => {
-            const cameraStatus = await Camera.requestPermissionsAsync()
-            setHasCameraPermissions(cameraStatus.status == 'granted')
+            // const cameraStatus = await Camera.requestPermissionsAsync()
+            // setHasCameraPermissions(cameraStatus.status == 'granted')
 
             const audioStatus = await Audio.requestPermissionsAsync()
             setHasAudioPermissions(audioStatus.status == 'granted')
@@ -79,7 +82,8 @@ export default function RecordScreen() {
             quality: 1
         })
         if (!result.cancelled) {
-            //TODO: pass video uri into save component
+            // pass video uri into save component
+            navigation.navigate('SavePost' , {source : result.uri})
         }
     }
 

@@ -15,6 +15,7 @@ import { HOMECOLOURS } from '../assets/color';
 import MainTabNavigator from './MainTabNavigator';
 import FriendsListScreen from '../screens/FriendsListScreen/FriendsListScreen';
 import VideoScreen from '../screens/VideoScreen/VideoScreen';
+import SavePostScreen from '../screens/SavePostScreen/SavePostScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -71,6 +72,7 @@ const Navigation = () => {
             <Stack.Screen name="Friends List" component={FriendsListScreen}
             options={{headerShown:true, headerStyle:{backgroundColor:HOMECOLOURS.dullwhite}}}
             />
+            <Stack.Screen name= "SavePost" component={SavePostScreen}/>
             </> 
                 ) : (
                 <>
