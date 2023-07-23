@@ -51,6 +51,7 @@ const pickImage = async () => {
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
     quality: 1,
     allowsMultipleSelection: true,
+    selectionLimit:4
   });
 
   if (!result.canceled) {

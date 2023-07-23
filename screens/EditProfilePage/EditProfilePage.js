@@ -55,10 +55,10 @@ const EditProfilePage = () => {
         await Promise.all(image.map(uploadFile));
         const imageUrls = await Promise.all(image.map(Storage.get));
         setImageSource(imageUrls.map((uri) => ({ uri })));
+        console.log(imageUrls.map((uri) => {uri}))
+        variables.input.image = imageUrls.map((uri) => {uri});
         setImage([]);
       }
-    console.log(variables.input.image);
-    variables.input.image = imageSource;
     const updatedUser = await API.graphql(graphqlOperation(updateUser, variables));
     setImageSource([]);
     setLoading(false);
@@ -80,17 +80,6 @@ const uploadFile = async (fileUri) => {
       console.log("Error uploading file:", err);
     }
   };
-
-useEffect(() => {
-    const downloadImages = async () => {
-      if (image) {
-        const imageUrls = await Promise.all(image.map(Storage.get));
-        
-        setImageSource(imageUrls.map((uri) => ({ uri })));
-      }
-    };
-    downloadImages();
-  }, [image]);
 
     const onChangeName = async () => {
         if (loading) {
