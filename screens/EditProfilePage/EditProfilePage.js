@@ -4,20 +4,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { HOMECOLOURS } from '../../assets/color';
 import { getUser } from '../../src/graphql/queries';
 import { Auth, API, graphqlOperation,Storage } from 'aws-amplify';
-import { useNavigation } from '@react-navigation/native';
 import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from "expo-image-picker";
 import { updateUser } from '../../src/graphql/mutations';
-import { S3Image } from 'aws-amplify-react-native';
 import { useForm } from 'react-hook-form';
-import * as Updates from 'expo-updates';
 import { KeyboardAvoidingView } from 'react-native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
 const EditProfilePage = () => {
     const [userData, setUserData] = useState([]);
-    const navigation = useNavigation();
     const [image, setImage] = useState([]);    
     const [newName, setNewName] = useState('');    
     const [newStatus, setNewStatus] = useState('');  
@@ -81,7 +77,7 @@ const uploadFile = async (fileUri) => {
     }
   };
 
-    const onChangeName = async () => {
+    const onChangeDetails = async () => {
         if (loading) {
             return;
         }
@@ -91,30 +87,16 @@ const uploadFile = async (fileUri) => {
         input: {
         id: authUser.attributes.sub,
         name: newName.trim(),
-        _version: userData._version
+        _version: userData._version,
+        status: newStatus.trim().length != 0 ? newStatus.trim() : userData.status
         }
     }
     const updatedUser = await API.graphql(graphqlOperation(updateUser, variables));
     setNewName("");
+    setNewStatus('');
     setLoading(false);
 };
-  const onChangeStatus = async () => {
-        if (loading) {
-            return;
-        }
-    setLoading(true);
-    const authUser = await Auth.currentAuthenticatedUser();
-    const variables = {
-        input: {
-        id: authUser.attributes.sub,
-        status: newStatus.trim(),
-        _version: userData._version
-        }
-    }
-    const updatedUser = await API.graphql(graphqlOperation(updateUser, variables));
-    setNewStatus("");
-    setLoading(false);
-};  
+
     useEffect(() => {
         const syncUser = async () => {
           const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
@@ -147,36 +129,33 @@ const uploadFile = async (fileUri) => {
           <KeyboardAvoidingView
     behavior={Platform.OS === "ios" ? "padding" : "height"}
   >
-          <View style={{flexDirection:"row",bottom:140}}>
+          <View style={{flexDirection:"row",bottom:110, alignSelf:"center"}}>
         <TouchableOpacity style={styles.pictureButton} onPress={pickImage}>
             <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Change Profile Picture</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.pictureButton} onPress={image.length != 0 ? handleSubmit(onChangePicture) : () => {}}>
-            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Confirm Profile Picture</Text>
+        <TouchableOpacity style={styles.pictureButton}
+      //   onPress={image.length != 0 ? handleSubmit(onChangePicture) : () => {}}
+         >
+            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Confirm Profile Picture(WIP)</Text>
         </TouchableOpacity>
         </View>
-        <View style={{flexDirection:"row",bottom:120}}>
-        <>
+        <View style={{flexDirection:"row",bottom:90}}>
         <TextInput value={newName}
         onChangeText={setNewName}
         maxLength={24}
         placeholder='New Name'
         style={styles.input}/>
-       </>
-        <TouchableOpacity style={styles.pictureButton} onPress={newName.trim().length != 0 ? handleSubmit(onChangeName) : () => {}}>
-            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Change Name</Text>
+        <TouchableOpacity style={[styles.pictureButton]} onPress={newName.trim().length != 0 || newStatus.trim().length != 0 ? handleSubmit(onChangeDetails) : () => {}}>
+            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Change Name/Status</Text>
         </TouchableOpacity>
         </View>
        
-        <View style={{flexDirection:"row",bottom:100}}>
+        <View style={{flexDirection:"row",bottom:80}}>
         <TextInput value={newStatus}
         onChangeText={setNewStatus}
         maxLength={60}
         placeholder='New Status'
-        style={styles.input}/>
-        <TouchableOpacity style={styles.pictureButton} onPress={newStatus.trim().length != 0 ? handleSubmit(onChangeStatus) : () => {}}>
-            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Change Status</Text>
-        </TouchableOpacity>
+        style={[styles.input]}/>
         </View>
         </KeyboardAvoidingView>
         </SafeAreaView>
@@ -234,7 +213,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 17,
     backgroundColor: "white",
-    padding: 8,
+    padding: 15,
     paddingHorizontal: 10,
     marginHorizontal: 5,
     width:200,
