@@ -1,3 +1,10 @@
+type Video @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  video: String
+  UserVideo: User @hasOne
+}
+
 type ChatRoom @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String

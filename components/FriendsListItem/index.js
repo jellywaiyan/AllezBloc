@@ -16,7 +16,7 @@ const FriendsListItem = ({ user }) => {
     //See if there's already a chat room with the user selected
     const existingChatRoom = await findOverlappingChatRooms(user.id);
     if (existingChatRoom) {
-      navigation.navigate("Chat", { id: existingChatRoom.id })
+      navigation.navigate("Chat", { id: existingChatRoom.chatRoom.id })
       return;
     }
 

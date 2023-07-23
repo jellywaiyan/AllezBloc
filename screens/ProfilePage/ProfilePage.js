@@ -9,19 +9,34 @@ import { useNavigation } from '@react-navigation/native';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState([]);
-
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
+  
   const navigation = useNavigation();
 
   const onEditPress = () => {
     navigation.navigate("Edit Profile");
   }
+  const onRefreshPress = () => {
+      const syncUser = async () => {
+        const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
   
+        const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub}));
+        setUserData(userData.data.getUser);
+        setName(userData.data.getUser.name);
+        setStatus(userData.data.getUser.status);
+        return;
+      }
+      syncUser();
+  }
   useEffect(() => {
     const syncUser = async () => {
       const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
 
       const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub}));
       setUserData(userData.data.getUser);
+      setName(userData.data.getUser.name);
+      setStatus(userData.data.getUser.status);
       return;
     }
     syncUser();
@@ -37,10 +52,13 @@ const ProfilePage = () => {
             <Image 
             style={styles.profilePic}
             source={{uri : userData.image}}/>
-            <Text style={styles.usernameStyle}>{userData.name}</Text>
-            <Text style={styles.subTitle}>{userData.status}</Text>
+            <Text style={styles.usernameStyle}>{name}</Text>
+            <Text style={styles.subTitle}>{status}</Text>
             <TouchableOpacity style={styles.editButton} onPress={onEditPress}>
               <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Edit Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.editButton} onPress={onRefreshPress}> 
+            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Refresh</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
