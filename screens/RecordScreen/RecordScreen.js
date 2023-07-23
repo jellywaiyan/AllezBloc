@@ -87,11 +87,11 @@ export default function RecordScreen() {
         }
     }
 
-    if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
-        return (
-            <View></View>
-        )
-    }
+    // if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
+    //     return (
+    //         <View></View>
+    //     )
+    // }
 
     return (
         <View style={styles.container}>
