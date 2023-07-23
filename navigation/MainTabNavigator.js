@@ -58,7 +58,7 @@ const MainTabNavigator = () => {
         })}
             />
             <Tab.Screen name= "Profile" component={ProfilePage}
-            options={{tabBarIcon: () => (<Image source={{uri: userData.image}} style={{height:30, width:30}}/>),}}
+            options={{tabBarIcon: () => (<Image source={{uri: userData.image}} style={{height:30, width:30, borderRadius: 25}}/>),}}
             />
         </Tab.Navigator>
     )
