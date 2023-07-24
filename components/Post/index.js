@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, TouchableWithoutFeedback, Text, Image, TouchableOpacity} from 'react-native';
 import {Storage} from 'aws-amplify';
 
-import Video from 'react-native-video';
+import { Video, ResizeMode } from 'expo-av';
 import styles from './styles';
 
 
@@ -17,14 +17,6 @@ const Post = (props) => {
     setPaused(!paused);
   };
 
-  const onLikePress = () => {
-    const likesToAdd = isLiked ? -1 : 1;
-    setPost({
-      ...post,
-      likes: post.likes + likesToAdd,
-    });
-    setIsLiked(!isLiked);
-  };
 
   const getVideoUri = async () => {
     if (post.videoUri.startsWith('http')) {
@@ -46,9 +38,8 @@ const Post = (props) => {
             source={{uri: videoUri}}
             style={styles.video}
             onError={(e) => console.log(e)}
-            resizeMode={'cover'}
-            repeat={true}
-            paused={paused}
+            resizeMode={ResizeMode.CONTAIN}
+            isLooping={true}
           />
 
           <View style={styles.uiContainer}>

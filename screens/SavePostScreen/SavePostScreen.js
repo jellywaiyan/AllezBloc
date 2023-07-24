@@ -15,16 +15,16 @@ export default function SavePostScreen(props) {
 
     const uploadToStorage = async (imagePath) => {
         try {
-        const response = await fetch(imagePath);
+            const response = await fetch(imagePath);
 
-        const blob = await response.blob();
+            const blob = await response.blob();
 
-        const filename = `${uuidv4()}.mp4`;
-        const s3Response = await Storage.put(filename, blob);
+            const filename = `${uuidv4()}.mp4`;
+            const s3Response = await Storage.put(filename, blob);
 
-        setVideoKey(s3Response.key);
+            setVideoKey(s3Response.key);
         } catch (e) {
-        console.error(e);
+            console.error(e);
         }
     };
 
@@ -35,25 +35,25 @@ export default function SavePostScreen(props) {
     const onPublish = async () => {
         // create post in the database (API)
         if (!videoKey) {
-        console.warn('VIdeo is not yet uploaded');
+            console.warn('VIdeo is not yet uploaded');
         return;
         }
 
         try {
-        const userInfo = await Auth.currentAuthenticatedUser();
+            const userInfo = await Auth.currentAuthenticatedUser();
 
-        const newPost = {
-            videoUri: videoKey,
-            description: description,
-            userID: userInfo.attributes.sub,
-        };
+            const newPost = {
+                videoUri: videoKey,
+                description: description,
+                userID: userInfo.attributes.sub,
+            };
 
-        const response = await API.graphql(
-            graphqlOperation(createPost, {input: newPost}),
-        );
-        navigation.navigate("Gyms", { screen: "GymScreen" });
+            const response = await API.graphql(
+                graphqlOperation(createPost, {input: newPost}),
+            );
+            navigation.navigate("Gyms", { screen: "GymScreen" });
         } catch (e) {
-        console.error(e);
+        ole.error(e);
         }
     };
     

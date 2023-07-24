@@ -654,17 +654,6 @@ export const createPost = /* GraphQL */ `
       videoUri
       description
       userID
-      user {
-        id
-        username
-        email
-        imageUri
-        posts {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       createdAt
       updatedAt
     }
