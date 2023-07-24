@@ -613,3 +613,74 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
     }
   }
 `;
+
+
+export const onCreatePost = /* GraphQL */ `
+  subscription OnCreatePost {
+    onCreatePost {
+      id
+      videoUri
+      description
+      userID
+      user {
+        id
+        username
+        email
+        imageUri
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePost = /* GraphQL */ `
+  subscription OnUpdatePost {
+    onUpdatePost {
+      id
+      videoUri
+      description
+      userID
+      user {
+        id
+        username
+        email
+        imageUri
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePost = /* GraphQL */ `
+  subscription OnDeletePost {
+    onDeletePost {
+      id
+      videoUri
+      description
+      userID
+      user {
+        id
+        username
+        email
+        imageUri
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;

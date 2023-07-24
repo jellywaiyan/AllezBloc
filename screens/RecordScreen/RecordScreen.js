@@ -61,6 +61,7 @@ export default function RecordScreen() {
                     const data = await videoRecordPromise;
                     const source = data.uri
                     //TODO: pass video uri into save component
+                    navigation.navigate('SavePost' , {videolink : source})
                 }
             } catch (error) {
                 console.warn(error)
@@ -81,9 +82,9 @@ export default function RecordScreen() {
             aspect: [16, 9],
             quality: 1
         })
-        if (!result.cancelled) {
+        if (!result.canceled) {
             // pass video uri into save component
-            navigation.navigate('SavePost' , {source : result.uri})
+            navigation.navigate('SavePost' , {videolink : result.assets[0].uri})
         }
     }
 

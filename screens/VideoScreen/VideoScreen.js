@@ -1,79 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions, FlatList, View } from 'react-native'
-import SingleVideo from '../../components/SingleVideo/SingleVideo'
-//import { getFeed } from '../../services/posts'
-import styles from './styles'
+import React, {useEffect, useState} from 'react';
+import {View, FlatList, Dimensions} from 'react-native';
+import Post from '../../components/Post';
+import {API, graphqlOperation} from 'aws-amplify';
 
-/**
- * Component that renders a list of posts meant to be 
- * used for the feed screen.
- * 
- * On start make fetch for posts then use a flatList 
- * to display/control the posts.
- */
+import {listPosts} from '../../src/graphql/queries';
+
 const VideoScreen = () => {
-    const [posts, setPosts] = useState([])
-    const mediaRefs = useRef([])
-    const array = [1, 2, 3 , 4 , 5]
+  const [posts, setPosts] = useState([]);
 
-    // useEffect(() => {
-    //     getFeed().then(setPosts)
-    // }, [])
+  useEffect(() => {
+    const fetchPost = async () => {
+      // fetch all the posts
+      try {
+        const response = await API.graphql(graphqlOperation(listPosts));
+        setPosts(response.data.listPosts.items);
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
+    fetchPost();
+  }, []);
 
-    /**
-     * Called any time a new post is shown when a user scrolls
-     * the FlatList, when this happens we should start playing 
-     * the post that is viewable and stop all the others
-     */
-    const onViewableItemsChanged = useRef(({ changed }) => {
-        changed.forEach(element => {
-            const cell = mediaRefs.current[element.key]
-            if (cell) {
-                if (element.isViewable) {
-                    cell.play()
-                } else {
-                    cell.stop()
-                }
-            }
-
-        });
-    })
-
-    /**
-     * renders the item shown in the FlatList
-     * 
-     * @param {Object} item object of the post 
-     * @param {Integer} index position of the post in the FlatList 
-     * @returns 
-     */
-    const renderItem = ({ item, index }) => {
-        return (
-            <View style={[{ flex: 1, height: Dimensions.get('window').height - 54 }, index % 2 == 0 ? { backgroundColor: 'blue' } : { backgroundColor: 'pink' }]}>
-                <SingleVideo item={item} ref={PostSingleRef => (mediaRefs.current[item.id] = PostSingleRef)} />
-            </View>
-        )
-    }
-
-    return (
-        <View style={styles.container}>
-            <FlatList
-                data={array}
-                windowSize={4}
-                initialNumToRender={0}
-                maxToRenderPerBatch={2}
-                removeClippedSubviews
-                viewabilityConfig={{
-                    itemVisiblePercentThreshold: 100
-                }}
-                renderItem={renderItem}
-                pagingEnabled
-                keyExtractor={item => item.id}
-                decelerationRate={'normal'}
-                onViewableItemsChanged={onViewableItemsChanged.current}
-            />
-        </View>
-    )
-}
+  return (
+    <View>
+      <FlatList
+        data={posts}
+        renderItem={({item}) => <Post post={item} />}
+        showsVerticalScrollIndicator={false}
+        snapToInterval={Dimensions.get('window').height - 130}
+        snapToAlignment={'start'}
+        decelerationRate={'fast'}
+      />
+    </View>
+  );
+};
 
 export default VideoScreen;

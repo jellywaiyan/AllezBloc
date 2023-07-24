@@ -723,3 +723,54 @@ export const userChatRoomsByUserId = /* GraphQL */ `
     }
   }
 `;
+
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      videoUri
+      description
+      userID
+      user {
+        id
+        username
+        email
+        imageUri
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPosts = /* GraphQL */ `
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        videoUri
+        description
+        userID
+        user {
+          id
+          username
+          email
+          imageUri
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
