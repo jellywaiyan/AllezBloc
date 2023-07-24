@@ -83,7 +83,6 @@ function WelcomeScreen(props) {
           type= "TERTIARY"
           fgColor='grey'
           />
-          <SocialSignInButtons/>
           <CustomButton
           text="Don't Have An Account? Sign Up Here!"
           onPress={onSignUpPress}

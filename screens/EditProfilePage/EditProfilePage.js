@@ -20,6 +20,8 @@ const EditProfilePage = () => {
     const {control, handleSubmit, formState:{errors}} = useForm();
     const [loading, setLoading] = useState(false);
     const [imageSource, setImageSource] = useState([]);
+    const [name, setName] = useState("");
+    const [status, setStatus] = useState("");
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -58,7 +60,6 @@ const EditProfilePage = () => {
     const updatedUser = await API.graphql(graphqlOperation(updateUser, variables));
     setImageSource([]);
     setLoading(false);
-
 };
 
 const uploadFile = async (fileUri) => {
@@ -86,14 +87,17 @@ const uploadFile = async (fileUri) => {
     const variables = {
         input: {
         id: authUser.attributes.sub,
-        name: newName.trim(),
+        name: newName.trim().length != 0 ? newName.trim() : name ,
         _version: userData._version,
-        status: newStatus.trim().length != 0 ? newStatus.trim() : userData.status
+        status: newStatus.trim().length != 0 ? newStatus.trim() : status
         }
     }
     const updatedUser = await API.graphql(graphqlOperation(updateUser, variables));
+    setName(newName.trim().length != 0 ? newName.trim() : name);
+    setStatus(newStatus.trim().length != 0 ? newStatus.trim() : status);
     setNewName("");
     setNewStatus('');
+    userData._version += 1;
     setLoading(false);
 };
 
@@ -103,6 +107,8 @@ const uploadFile = async (fileUri) => {
     
           const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub}));
           setUserData(userData.data.getUser);
+          setName(userData.data.getUser.name);
+          setStatus(userData.data.getUser.status);
           return;
         }
         syncUser();
@@ -115,8 +121,8 @@ const uploadFile = async (fileUri) => {
         style={styles.profilePic}
         source={{uri : userData.image}}/>
         <Text style={{padding:5, fontWeight:"700"}}>Current Profile Picture</Text>
-        <Text style={{padding:5, fontWeight:"700"}}> Current Name: {userData?.name}</Text>
-        <Text style={{padding:5, fontWeight:"700", textAlign:"center", maxWidth:"80%", maxHeight:"10%"}}> Current status: {userData?.status}</Text>
+        <Text style={{padding:5, fontWeight:"700"}}> Current Name: {name}</Text>
+        <Text style={{padding:5, fontWeight:"700", textAlign:"center", maxWidth:"80%", maxHeight:"10%"}}> Current status: {status}</Text>
         <FlatList
         scrollEnabled="false"
         style={{padding:15}}
