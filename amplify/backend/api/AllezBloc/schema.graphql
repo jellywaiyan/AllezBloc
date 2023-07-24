@@ -1,3 +1,10 @@
+type Post @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  videoUri: String!
+  description: String!
+  userID: ID! @index(name: "byUser")
+}
+
 type ChatRoom @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
@@ -23,5 +30,6 @@ type User @model @auth(rules: [{allow: public}]) {
   image: String
   Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
   ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+  Posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
 }
  

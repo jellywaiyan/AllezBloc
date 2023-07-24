@@ -6,6 +6,38 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@a
 
 
 
+type EagerPost = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Post, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly videoUri: string;
+  readonly description: string;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyPost = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Post, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly videoUri: string;
+  readonly description: string;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Post = LazyLoading extends LazyLoadingDisabled ? EagerPost : LazyPost
+
+export declare const Post: (new (init: ModelInit<Post>) => Post) & {
+  copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
 type EagerChatRoom = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<ChatRoom, 'id'>;
@@ -89,6 +121,7 @@ type EagerUser = {
   readonly image?: string | null;
   readonly Messages?: (Message | null)[] | null;
   readonly ChatRooms?: (UserChatRoom | null)[] | null;
+  readonly Posts?: (Post | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -104,6 +137,7 @@ type LazyUser = {
   readonly image?: string | null;
   readonly Messages: AsyncCollection<Message>;
   readonly ChatRooms: AsyncCollection<UserChatRoom>;
+  readonly Posts: AsyncCollection<Post>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
