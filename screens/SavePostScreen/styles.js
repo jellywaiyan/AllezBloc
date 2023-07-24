@@ -14,8 +14,9 @@ const styles = StyleSheet.create({
         flex: 1
     },
     formContainer: {
-        margin: 20,
-        flexDirection: 'row'
+        margin: 30,
+        flexDirection: 'row',
+        maxHeight : 100
     },
     buttonsContainer: {
         flexDirection: 'row',

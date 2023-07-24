@@ -62,7 +62,7 @@ export default function SavePostScreen(props) {
             <View style={styles.formContainer}>
                 <TextInput
                     style={styles.inputText}
-                    maxLength={150}
+                    maxLength={100}
                     multiline
                     value={description}
                     onChangeText={setDescription}
@@ -70,7 +70,7 @@ export default function SavePostScreen(props) {
                 />
                 <Image
                     style={styles.mediaPreview}
-                    source={{ uri: route.params.source }}
+                    source={{ uri: route.params.videolink }}
                 />
             </View>
             <View style={styles.spacer} />
