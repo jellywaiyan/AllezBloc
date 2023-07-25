@@ -43,16 +43,9 @@ const Post = (props) => {
           />
 
           <View style={styles.uiContainer}>
-            <View style={styles.rightContainer}>
-              <Image
-                style={styles.profilePicture}
-                source={{uri: post.user.imageUri}}
-              />
-            </View>
 
             <View style={styles.bottomContainer}>
               <View>
-                <Text style={styles.handle}>@{post.user.username}</Text>
                 <Text style={styles.description}>{post.description}</Text>
               </View>
 

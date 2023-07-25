@@ -759,14 +759,6 @@ export const listPosts = /* GraphQL */ `
         videoUri
         description
         userID
-        user {
-          id
-          username
-          email
-          imageUri
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
