@@ -62,7 +62,7 @@ export default function SavePostScreen(props) {
             <View style={styles.formContainer}>
                 <TextInput
                     style={styles.inputText}
-                    maxLength={100}
+                    maxLength={50}
                     multiline
                     value={description}
                     onChangeText={setDescription}

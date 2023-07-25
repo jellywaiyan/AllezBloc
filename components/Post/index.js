@@ -8,14 +8,11 @@ import styles from './styles';
 
 const Post = (props) => {
   const [post, setPost] = useState(props.post);
-  const [isLiked, setIsLiked] = useState(false);
+
   const [videoUri, setVideoUri] = useState('');
+  const [status, setStatus] = React.useState({});
+  const video = React.useRef(null);
 
-  const [paused, setPaused] = useState(false);
-
-  const onPlayPausePress = () => {
-    setPaused(!paused);
-  };
 
 
   const getVideoUri = async () => {
@@ -32,14 +29,19 @@ const Post = (props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={onPlayPausePress}>
+      <TouchableWithoutFeedback onPress={() =>
+            status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
+          }>
         <View>
           <Video
+            ref={video}
             source={{uri: videoUri}}
             style={styles.video}
             onError={(e) => console.log(e)}
             resizeMode={ResizeMode.CONTAIN}
-            isLooping={true}
+            isLooping
+            onLoad={() =>  {video.current.playAsync()}}
+            shouldPlay = {true}
           />
 
           <View style={styles.uiContainer}>
