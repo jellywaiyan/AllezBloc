@@ -13,11 +13,6 @@ import {
 } from 'react-native';
 import {HOMECOLOURS} from '../../assets/color';
 import {Categories} from '../../data/dummy';
-import Material from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome5';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 // code
@@ -199,16 +194,7 @@ const GymScreen = () => {
                 width: 40,
                 height: 40,
               }}>
-              <Image
-              source={require('../../assets/profile.png')}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  resizeMode: 'contain',
-                  borderRadius: 500,
-                  left:15,
-                }}
-              />
+ 
             </TouchableOpacity>
             <TouchableOpacity
             onPress={signOut}
@@ -234,22 +220,6 @@ const GymScreen = () => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Image source={require("../../assets/Logos/searchIcon.png")}
-            style={{height:28, width:28}}
-            />
-            <TextInput
-              placeholder="Search..."
-              style={{
-                color: HOMECOLOURS.black,
-                fontSize: 16,
-                paddingVertical: 5,
-                borderBottomWidth: 1,
-                borderBottomColor: HOMECOLOURS.black + 20,
-                width: '90%',
-                marginLeft: 10,
-                letterSpacing: 1,
-              }}
-            />
           </View>
           <Text
             style={{
