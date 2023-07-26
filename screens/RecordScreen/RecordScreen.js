@@ -104,6 +104,7 @@ export default function RecordScreen() {
     }
 
     const stopVideo = async () => {
+        setIsRecording(false);
         if (cameraRef) {
             cameraRef.stopRecording()
         }
