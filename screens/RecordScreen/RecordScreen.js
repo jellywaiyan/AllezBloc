@@ -18,7 +18,7 @@ import styles from './styles'
  * @returns Functional Component
  */
 export default function RecordScreen() {
-    const [hasCameraPermissions, setHasCameraPermissions] = useState(false)
+    // const [hasCameraPermissions, setHasCameraPermissions] = useState(false)
     const [hasAudioPermissions, setHasAudioPermissions] = useState(false)
     const [hasGalleryPermissions, setHasGalleryPermissions] = useState(false)
 
@@ -40,10 +40,8 @@ export default function RecordScreen() {
             // const cameraStatus = await Camera.requestPermissionsAsync()
             // setHasCameraPermissions(cameraStatus.status == 'granted')
 
-            const cameraPermission = await Camera.requestCameraPermissionsAsync();
-            const microphonePermission = await Camera.requestMicrophonePermissionsAsync();
-            setHasCameraPermission(cameraPermission.status === "granted");
-            setHasMicrophonePermission(microphonePermission.status === "granted");
+            // const cameraStatus = await Camera.requestPermissionsAsync()
+            // setHasCameraPermissions(cameraStatus.status == 'granted')
 
             const audioStatus = await Audio.requestPermissionsAsync()
             setHasAudioPermissions(audioStatus.status == 'granted')
@@ -58,11 +56,11 @@ export default function RecordScreen() {
         })()
     }, [])
 
-    if (hasCameraPermission === undefined || hasMicrophonePermission === undefined) {
-        return <Text>Requesting permissions...</Text>;
-      } else if (!hasCameraPermission) {
-        return <Text>Permission for camera not granted.</Text>;
-      }
+    // if (hasCameraPermissions === undefined || hasAudioPermissions === undefined) {
+    //     return <Text>Requesting permissions...</Text>;
+    //   } else if (!hasCameraPermissions) {
+    //     return <Text>Permission for camera not granted.</Text>;
+    //   }
 
 
 
@@ -87,6 +85,7 @@ export default function RecordScreen() {
     // }
 
     const recordVideo = async () => {
+        setIsRecording(true);
         if (cameraRef) {
             try {
                 const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality['480'] }
@@ -148,18 +147,20 @@ export default function RecordScreen() {
             <View style={styles.bottomBarContainer}>
                 <View style={{ flex: 1 }}></View>
                 <View style={styles.recordButtonContainer}>
-                {isRecording ? 
+                {!isRecording ? 
                     <TouchableOpacity
                         disabled={!isCameraReady}
                         onPress={() => recordVideo()}
                         style={styles.recordButton}
-                    /> :
+                    />
+                     :
                     <TouchableOpacity
                         onPress={() => stopVideo()}
                         style={styles.recordingButton}
                     />
                 }
                 </View>
+                {!isRecording ? 
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity
                         onPress={() => pickFromGallery()}
@@ -172,7 +173,8 @@ export default function RecordScreen() {
                                 source={{ uri: galleryItems[0].uri }}
                             />}
                     </TouchableOpacity>
-                </View>
+                </View> : <></>
+}
             </View>
         </View>
     )
