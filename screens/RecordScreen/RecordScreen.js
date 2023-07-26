@@ -110,14 +110,11 @@ export default function RecordScreen() {
         }
     }
 
-    if (video) {
-        let shareVideo = () => {
-          shareAsync(video.uri).then(() => {
-            setVideo(undefined);
-          });
-        };
-    
-    
+    let saveVideo = () => {
+        navigation.navigate('SavePost' , {videolink : video.uri})
+      };
+
+    if (video) {  
         return (
           <SafeAreaView style={styles.container}>
             <Video
@@ -127,12 +124,12 @@ export default function RecordScreen() {
               resizeMode='contain'
               isLooping
             />
-            <Button title="Share" onPress={shareVideo} />
-            {hasMediaLibraryPermission ? <Button title="Save" onPress={saveVideo} /> : null}
+
+            <Button title="Upload" onPress={saveVideo} />
             <Button title="Discard" onPress={() => setVideo(undefined)} />
           </SafeAreaView>
         );
-      }
+    }
 
     return (
         <View style={styles.container}>
@@ -151,12 +148,17 @@ export default function RecordScreen() {
             <View style={styles.bottomBarContainer}>
                 <View style={{ flex: 1 }}></View>
                 <View style={styles.recordButtonContainer}>
+                {isRecording ? 
                     <TouchableOpacity
                         disabled={!isCameraReady}
-                        onLongPress={() => recordVideo()}
-                        onPressOut={() => stopVideo()}
+                        onPress={() => recordVideo()}
                         style={styles.recordButton}
+                    /> :
+                    <TouchableOpacity
+                        onPress={() => stopVideo()}
+                        style={styles.recordingButton}
                     />
+                }
                 </View>
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity

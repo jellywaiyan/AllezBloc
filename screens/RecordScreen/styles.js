@@ -29,6 +29,15 @@ const styles = StyleSheet.create({
         width: 80,
         alignSelf: 'center'
     },
+    recordingButton: {
+        borderWidth: 8,
+        borderColor: '#ffffff', // White border color
+        backgroundColor: 'rgba(255, 64, 64, 0.6)', // Red background with 0.6 opacity (adjust as needed)
+        borderRadius: 100,
+        height: 80,
+        width: 80,
+        alignSelf: 'center'
+    },
     galleryButton: {
         borderWidth: 2,
         borderColor: 'white',
