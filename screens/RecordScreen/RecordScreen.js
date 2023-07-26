@@ -90,12 +90,12 @@ export default function RecordScreen() {
             try {
                 const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality['480'] }
                 const videoRecordPromise = cameraRef.recordAsync(options)
-                setI
+
                 if (videoRecordPromise) {
-                    const data = await videoRecordPromise;
-                    const source = data.uri
-                    //TODO: pass video uri into save component
-                    navigation.navigate('SavePost' , {videolink : source})
+                    videoRecordPromise.then((recordedVideo) => {
+                        setVideo(recordedVideo);
+                        setIsRecording(false);
+                    })
                 }
             } catch (error) {
                 console.warn(error)
@@ -161,8 +161,8 @@ export default function RecordScreen() {
                     />
                 }
                 </View>
-                {!isRecording ? 
                 <View style={{ flex: 1 }}>
+                {!isRecording ? 
                     <TouchableOpacity
                         onPress={() => pickFromGallery()}
                         style={styles.galleryButton}>
@@ -174,8 +174,9 @@ export default function RecordScreen() {
                                 source={{ uri: galleryItems[0].uri }}
                             />}
                     </TouchableOpacity>
-                </View> : <></>
-}
+                    : <></>
+                }
+                </View> 
             </View>
         </View>
     )
