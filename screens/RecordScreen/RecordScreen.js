@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { Camera } from 'expo-camera'
-import { Audio } from 'expo-av'
+import { Audio , Video } from 'expo-av'
 import * as ImagePicker from 'expo-image-picker'
 import * as MediaLibrary from 'expo-media-library'
 import { useIsFocused } from '@react-navigation/core'
@@ -30,6 +30,8 @@ export default function RecordScreen() {
 
     const [isCameraReady, setIsCameraReady] = useState(false)
     const isFocused = useIsFocused()
+    const [video, setVideo] = useState();
+    const [isRecording, setIsRecording] = useState(false);
 
     const navigation = useNavigation()
 
@@ -37,6 +39,11 @@ export default function RecordScreen() {
         (async () => {
             // const cameraStatus = await Camera.requestPermissionsAsync()
             // setHasCameraPermissions(cameraStatus.status == 'granted')
+
+            const cameraPermission = await Camera.requestCameraPermissionsAsync();
+            const microphonePermission = await Camera.requestMicrophonePermissionsAsync();
+            setHasCameraPermission(cameraPermission.status === "granted");
+            setHasMicrophonePermission(microphonePermission.status === "granted");
 
             const audioStatus = await Audio.requestPermissionsAsync()
             setHasAudioPermissions(audioStatus.status == 'granted')
@@ -51,30 +58,15 @@ export default function RecordScreen() {
         })()
     }, [])
 
+    if (hasCameraPermission === undefined || hasMicrophonePermission === undefined) {
+        return <Text>Requesting permissions...</Text>;
+      } else if (!hasCameraPermission) {
+        return <Text>Permission for camera not granted.</Text>;
+      }
 
-    const recordVideo = async () => {
-        if (cameraRef) {
-            try {
-                const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality['480'] }
-                const videoRecordPromise = cameraRef.recordAsync(options)
-                if (videoRecordPromise) {
-                    const data = await videoRecordPromise;
-                    const source = data.uri
-                    //TODO: pass video uri into save component
-                    navigation.navigate('SavePost' , {videolink : source})
-                }
-            } catch (error) {
-                console.warn(error)
-            }
-        }
-    }
 
-    const stopVideo = async () => {
-        if (cameraRef) {
-            cameraRef.stopRecording()
-        }
-    }
 
+    // from gallery
     const pickFromGallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Videos,
@@ -93,6 +85,54 @@ export default function RecordScreen() {
     //         <View></View>
     //     )
     // }
+
+    const recordVideo = async () => {
+        if (cameraRef) {
+            try {
+                const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality['480'] }
+                const videoRecordPromise = cameraRef.recordAsync(options)
+                setI
+                if (videoRecordPromise) {
+                    const data = await videoRecordPromise;
+                    const source = data.uri
+                    //TODO: pass video uri into save component
+                    navigation.navigate('SavePost' , {videolink : source})
+                }
+            } catch (error) {
+                console.warn(error)
+            }
+        }
+    }
+
+    const stopVideo = async () => {
+        if (cameraRef) {
+            cameraRef.stopRecording()
+        }
+    }
+
+    if (video) {
+        let shareVideo = () => {
+          shareAsync(video.uri).then(() => {
+            setVideo(undefined);
+          });
+        };
+    
+    
+        return (
+          <SafeAreaView style={styles.container}>
+            <Video
+              style={styles.video}
+              source={{uri: video.uri}}
+              useNativeControls
+              resizeMode='contain'
+              isLooping
+            />
+            <Button title="Share" onPress={shareVideo} />
+            {hasMediaLibraryPermission ? <Button title="Save" onPress={saveVideo} /> : null}
+            <Button title="Discard" onPress={() => setVideo(undefined)} />
+          </SafeAreaView>
+        );
+      }
 
     return (
         <View style={styles.container}>

@@ -5,6 +5,7 @@ import styles from './styles'
 import {v4 as uuidv4} from 'uuid';
 import {Storage, API, graphqlOperation, Auth} from 'aws-amplify';
 import {createPost} from '../../src/graphql/mutations';
+import { Video } from 'expo-av';
 
 export default function SavePostScreen(props) {
     const [description, setDescription] = useState('');
@@ -59,7 +60,7 @@ export default function SavePostScreen(props) {
     
     return (
         <View style={styles.container}>
-            <View style={styles.formContainer}>
+            <ScrollView contentContainerStyle={styles.formContainer} keyboardShouldPersistTaps='handled'>
                 <TextInput
                     style={styles.inputText}
                     maxLength={50}
@@ -68,11 +69,11 @@ export default function SavePostScreen(props) {
                     onChangeText={setDescription}
                     placeholder="Describe your video"
                 />
-                <Image
+                <Video
                     style={styles.mediaPreview}
                     source={{ uri: route.params.videolink }}
                 />
-            </View>
+            </ScrollView>
             <View style={styles.spacer} />
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity
