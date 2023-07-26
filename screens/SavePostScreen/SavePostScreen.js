@@ -1,6 +1,6 @@
 import {useRoute, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react'
-import { ActivityIndicator, Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
 import {v4 as uuidv4} from 'uuid';
 import {Storage, API, graphqlOperation, Auth} from 'aws-amplify';
