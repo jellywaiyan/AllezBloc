@@ -27,7 +27,6 @@ const Message = ({ message }) => {
     const downloadImages = async () => {
       if (message.images) {
         const imageUrls = await Promise.all(message.images.map(Storage.get));
-        
         setImageSources(imageUrls.map((uri) => ({ uri })));
       }
     };

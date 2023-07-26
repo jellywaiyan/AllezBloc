@@ -22,7 +22,8 @@ const EditProfilePage = () => {
     const [imageSource, setImageSource] = useState([]);
     const [name, setName] = useState("");
     const [status, setStatus] = useState("");
-
+    const [newImage, setNewImage] = useState(null);
+    
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -50,11 +51,10 @@ const EditProfilePage = () => {
     }
 
     if (image) {
-        await Promise.all(image.map(uploadFile));
-        const imageUrls = await Promise.all(image.map(Storage.get));
-        setImageSource(imageUrls.map((uri) => ({ uri })));
-        console.log(imageUrls.map((uri) => {uri}))
-        variables.input.image = imageUrls.map((uri) => {uri});
+        const uploadedImage = await Promise.all(image.map(uploadFile));
+        const imageUrls = await Promise.all(uploadedImage.map(Storage.get));
+        variables.input.image = imageUrls[0];
+        setNewImage(imageUrls[0]);
         setImage([]);
       }
     const updatedUser = await API.graphql(graphqlOperation(updateUser, variables));
@@ -104,11 +104,11 @@ const uploadFile = async (fileUri) => {
     useEffect(() => {
         const syncUser = async () => {
           const authUser = await Auth.currentAuthenticatedUser({bypassCache: true,});
-    
           const userData = await API.graphql(graphqlOperation(getUser, { id: authUser.attributes.sub}));
           setUserData(userData.data.getUser);
           setName(userData.data.getUser.name);
           setStatus(userData.data.getUser.status);
+          setNewImage(userData.data.getUser.image);
           return;
         }
         syncUser();
@@ -119,7 +119,7 @@ const uploadFile = async (fileUri) => {
         <SafeAreaView style={{flex: 1,backgroundColor:HOMECOLOURS.dullwhite, alignItems:"center"}}>
         <Image 
         style={styles.profilePic}
-        source={{uri : userData.image}}/>
+        source={{uri : newImage}}/>
         <Text style={{padding:5, fontWeight:"700"}}>Current Profile Picture</Text>
         <Text style={{padding:5, fontWeight:"700"}}> Current Name: {name}</Text>
         <Text style={{padding:5, fontWeight:"700", textAlign:"center", maxWidth:"80%", maxHeight:"10%"}}> Current status: {status}</Text>
@@ -140,9 +140,9 @@ const uploadFile = async (fileUri) => {
             <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Change Profile Picture</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.pictureButton}
-      //   onPress={image.length != 0 ? handleSubmit(onChangePicture) : () => {}}
+         onPress={image.length != 0 ? handleSubmit(onChangePicture) : () => {}}
          >
-            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Confirm Profile Picture(WIP)</Text>
+            <Text style={{fontWeight:"700", fontSize:13, color:"black"}}>Confirm Profile Picture</Text>
         </TouchableOpacity>
         </View>
         <View style={{flexDirection:"row",bottom:90}}>
