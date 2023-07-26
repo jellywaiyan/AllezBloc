@@ -4,6 +4,7 @@ import {Storage} from 'aws-amplify';
 
 import { Video, ResizeMode } from 'expo-av';
 import styles from './styles';
+import { getUser } from '../../src/graphql/queries';
 
 
 const Post = (props) => {
@@ -12,19 +13,27 @@ const Post = (props) => {
   const [videoUri, setVideoUri] = useState('');
   const [status, setStatus] = React.useState({});
   const video = React.useRef(null);
+  const [name, setName] = useState("");
 
-
-
+  
   const getVideoUri = async () => {
-    if (post.videoUri.startsWith('http')) {
-      setVideoUri(post.videoUri);
-      return;
-    }
-    setVideoUri(await Storage.get(post.videoUri));
-  };
+      if (post.videoUri.startsWith('http')) {
+          setVideoUri(post.videoUri);
+          return;
+        }
+        setVideoUri(await Storage.get(post.videoUri));
+    };
+    
+    useEffect(() => {
+      getVideoUri();
+      // const syncUser = async () => {
+      //     const userData = await API.graphql(graphqlOperation(getUser, { id: post.userID}));
+      //     setName(userData.data.getUser.name);
+      //     return;
+      // }
 
-  useEffect(() => {
-    getVideoUri();
+      // syncUser();
+    
   },[]);
 
   return (
@@ -48,6 +57,7 @@ const Post = (props) => {
 
             <View style={styles.bottomContainer}>
               <View>
+                <Text style={styles.handle}>{name}</Text>
                 <Text style={styles.description}>{post.description}</Text>
               </View>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image , SafeAreaView } from 'react-native'
 import { Camera } from 'expo-camera'
 import { Audio , Video } from 'expo-av'
 import * as ImagePicker from 'expo-image-picker'
@@ -133,7 +133,6 @@ export default function RecordScreen() {
 
     return (
         <View style={styles.container}>
-            {isFocused ?
                 <Camera
                     ref={ref => setCameraRef(ref)}
                     style={styles.camera}
@@ -142,7 +141,6 @@ export default function RecordScreen() {
                     flashMode={cameraFlash}
                     onCameraReady={() => setIsCameraReady(true)}
                 />
-                : null}
 
 
             <View style={styles.bottomBarContainer}>

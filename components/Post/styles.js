@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   handle: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '700',
     marginBottom: 10,
   },
