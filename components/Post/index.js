@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, TouchableWithoutFeedback, Text, Image, TouchableOpacity} from 'react-native';
 import {Storage} from 'aws-amplify';
-
+import {API, graphqlOperation} from 'aws-amplify';
 import { Video, ResizeMode } from 'expo-av';
 import styles from './styles';
 import { getUser } from '../../src/graphql/queries';
@@ -24,15 +24,15 @@ const Post = (props) => {
         setVideoUri(await Storage.get(post.videoUri));
     };
     
+    const syncUser = async () => {
+        const userData = await API.graphql(graphqlOperation(getUser, { id: post.userID}));
+        setName(userData.data.getUser.name);
+        return;
+    }
+
     useEffect(() => {
       getVideoUri();
-      // const syncUser = async () => {
-      //     const userData = await API.graphql(graphqlOperation(getUser, { id: post.userID}));
-      //     setName(userData.data.getUser.name);
-      //     return;
-      // }
-
-      // syncUser();
+      syncUser();
     
   },[]);
 
