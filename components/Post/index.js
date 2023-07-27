@@ -9,7 +9,6 @@ import { getUser } from '../../src/graphql/queries';
 
 const Post = (props) => {
   const [post, setPost] = useState(props.post);
-
   const [videoUri, setVideoUri] = useState('');
   const [status, setStatus] = React.useState({});
   const video = React.useRef(null);
@@ -33,8 +32,81 @@ const Post = (props) => {
     useEffect(() => {
       getVideoUri();
       syncUser();
+
+      return () => unload();
     
   },[]);
+
+    /**
+       * Plays the video in the component if the ref
+       * of the video is not null.
+       * 
+       * @returns {void} 
+       */
+
+    const play = async () => {
+      if (video.current == null) {
+          return;
+      }
+
+      // if video is already playing return
+      const status = await video.current.getStatusAsync();
+      if (status?.isPlaying) {
+          return;
+      }
+      try {
+          await video.current.playAsync();
+      } catch (e) {
+          console.log(e)
+      }
+  }
+
+
+  /**
+   * Stops the video in the component if the ref
+   * of the video is not null.
+   * 
+   * @returns {void} 
+   */
+  const stop = async () => {
+      if (video.current == null) {
+          return;
+      }
+
+      // if video is already stopped return
+      const status = await video.current.getStatusAsync();
+      if (!status?.isPlaying) {
+          return;
+      }
+      try {
+          await video.current.stopAsync();
+      } catch (e) {
+          console.log(e)
+      }
+  }
+
+
+  /**
+   * Unloads the video in the component if the ref
+   * of the video is not null.
+   * 
+   * This will make sure unnecessary video instances are
+   * not in memory at all times 
+   * 
+   * @returns {void} 
+   */
+  const unload = async () => {
+      if (video.current == null) {
+          return;
+      }
+
+      // if video is already stopped return
+      try {
+          await video.current.unloadAsync();
+      } catch (e) {
+          console.log(e)
+      }
+  }
 
   return (
     <View style={styles.container}>
@@ -46,12 +118,11 @@ const Post = (props) => {
             ref={video}
             source={{uri: videoUri}}
             style={styles.video}
-            onError={(e) => console.log(e)}
             resizeMode={ResizeMode.CONTAIN}
             isLooping
-            onLoad={() =>  {video.current.playAsync()}}
             shouldPlay = {true}
-            useNativeControls
+            usePoster
+            posterStyle={{ resizeMode: 'cover', height: '100%' }}
           />
 
           <View style={styles.uiContainer}>
