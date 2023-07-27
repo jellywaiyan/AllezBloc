@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, TouchableOpacity, Image , SafeAreaView } from 'react-native'
 import { Camera } from 'expo-camera'
 import { Audio , Video } from 'expo-av'
@@ -24,7 +24,7 @@ export default function RecordScreen() {
 
     const [galleryItems, setGalleryItems] = useState([])
 
-    const [cameraRef, setCameraRef] = useState(null)
+    // const [cameraRef, setCameraRef] = useState(null)
     const [cameraType, setCameraType] = useState(Camera.Constants.Type.back)
     const [cameraFlash, setCameraFlash] = useState(Camera.Constants.FlashMode.off)
 
@@ -34,6 +34,8 @@ export default function RecordScreen() {
     const [isRecording, setIsRecording] = useState(false);
 
     const navigation = useNavigation()
+
+    let cameraRef = useRef();
 
     useEffect(() => {
         (async () => {
@@ -86,28 +88,26 @@ export default function RecordScreen() {
 
     const recordVideo = async () => {
         setIsRecording(true);
-        if (cameraRef) {
-            try {
-                const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality['480'] }
-                const videoRecordPromise = cameraRef.recordAsync(options)
+        try {
+            const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality['480'] }
+            const videoRecordPromise = cameraRef.current.recordAsync(options)
 
-                if (videoRecordPromise) {
-                    videoRecordPromise.then((recordedVideo) => {
-                        setVideo(recordedVideo);
-                        setIsRecording(false);
-                    })
-                }
-            } catch (error) {
-                console.warn(error)
+            if (videoRecordPromise) {
+                videoRecordPromise.then((recordedVideo) => {
+                    setVideo(recordedVideo);
+                    setIsRecording(false);
+                })
             }
+        } catch (error) {
+            console.warn(error)
         }
+        
     }
 
     const stopVideo = async () => {
         setIsRecording(false);
-        if (cameraRef) {
-            cameraRef.stopRecording()
-        }
+        cameraRef.current.stopRecording();
+    
     }
 
     let saveVideo = () => {
@@ -134,7 +134,7 @@ export default function RecordScreen() {
     return (
         <View style={styles.container}>
                 <Camera
-                    ref={ref => setCameraRef(ref)}
+                    ref={cameraRef}
                     style={styles.camera}
                     ratio={'16:9'}
                     type={cameraType}
