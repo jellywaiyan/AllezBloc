@@ -74,6 +74,7 @@ export default function RecordScreen() {
 
   let saveVideo = () => {
     navigation.navigate('SavePost', { videolink: video.uri });
+    setVideo(undefined);
   };
 
   if (video) {
