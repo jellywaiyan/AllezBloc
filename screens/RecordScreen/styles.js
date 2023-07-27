@@ -1,8 +1,13 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
-    container: {
+    camcontainer: {
         flex: 1,
-        marginTop: 48
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+    video: {
+        flex: 1,
+        alignSelf: "stretch"
     },
     camera: {
         flex: 1,
