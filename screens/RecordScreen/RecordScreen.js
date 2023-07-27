@@ -1,181 +1,96 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { View, Text, TouchableOpacity, Image , SafeAreaView } from 'react-native'
-import { Camera } from 'expo-camera'
-import { Audio , Video } from 'expo-av'
-import * as ImagePicker from 'expo-image-picker'
-import * as MediaLibrary from 'expo-media-library'
-import { useIsFocused } from '@react-navigation/core'
-import { useNavigation } from '@react-navigation/native'
+// The following packages need to be installed using the following commands:
+// expo install expo-camera
+// expo install expo-media-library
+// expo install expo-sharing
+// expo install expo-av
 
+import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import { useEffect, useState, useRef } from 'react';
+import { Camera } from 'expo-camera';
+import { Video } from 'expo-av';
 
-import styles from './styles'
+export default function App() {
+  let cameraRef = useRef();
+  const [hasCameraPermission, setHasCameraPermission] = useState();
+  const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
+//   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+  const [isRecording, setIsRecording] = useState(false);
+  const [video, setVideo] = useState();
 
+  useEffect(() => {
+    (async () => {
+      const cameraPermission = await Camera.requestCameraPermissionsAsync();
+      const microphonePermission = await Camera.requestMicrophonePermissionsAsync();
+    //   const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
 
-/**
- * Function that renders a component responsible showing
- * a view with the camera preview, recording videos, controling the camera and
- * letting the user pick a video from the gallery
- * @returns Functional Component
- */
-export default function RecordScreen() {
-    // const [hasCameraPermissions, setHasCameraPermissions] = useState(false)
-    const [hasAudioPermissions, setHasAudioPermissions] = useState(false)
-    const [hasGalleryPermissions, setHasGalleryPermissions] = useState(false)
+      setHasCameraPermission(cameraPermission.status === "granted");
+      setHasMicrophonePermission(microphonePermission.status === "granted");
+    //   setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
+    })();
+  }, []);
 
-    const [galleryItems, setGalleryItems] = useState([])
+  if (hasCameraPermission === undefined || hasMicrophonePermission === undefined) {
+    return <Text>Requestion permissions...</Text>
+  } else if (!hasCameraPermission) {
+    return <Text>Permission for camera not granted.</Text>
+  }
 
-    // const [cameraRef, setCameraRef] = useState(null)
-    const [cameraType, setCameraType] = useState(Camera.Constants.Type.back)
-    const [cameraFlash, setCameraFlash] = useState(Camera.Constants.FlashMode.off)
+  let recordVideo = () => {
+    setIsRecording(true);
+    let options = {
+      quality: "1080p",
+      maxDuration: 60,
+      mute: false
+    };
 
-    const [isCameraReady, setIsCameraReady] = useState(false)
-    const isFocused = useIsFocused()
-    const [video, setVideo] = useState();
-    const [isRecording, setIsRecording] = useState(false);
+    cameraRef.current.recordAsync(options).then((recordedVideo) => {
+      setVideo(recordedVideo);
+      setIsRecording(false);
+    });
+  };
 
-    const navigation = useNavigation()
+  let stopRecording = () => {
+    setIsRecording(false);
+    cameraRef.current.stopRecording();
+  };
 
-    let cameraRef = useRef();
-
-    useEffect(() => {
-        (async () => {
-            // const cameraStatus = await Camera.requestPermissionsAsync()
-            // setHasCameraPermissions(cameraStatus.status == 'granted')
-
-            // const cameraStatus = await Camera.requestPermissionsAsync()
-            // setHasCameraPermissions(cameraStatus.status == 'granted')
-
-            const audioStatus = await Audio.requestPermissionsAsync()
-            setHasAudioPermissions(audioStatus.status == 'granted')
-
-            const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
-            setHasGalleryPermissions(galleryStatus.status == 'granted')
-
-            if (galleryStatus.status == 'granted') {
-                const userGalleryMedia = await MediaLibrary.getAssetsAsync({ sortBy: ['creationTime'], mediaType: ['video'] })
-                setGalleryItems(userGalleryMedia.assets)
-            }
-        })()
-    }, [])
-
-    // if (hasCameraPermissions === undefined || hasAudioPermissions === undefined) {
-    //     return <Text>Requesting permissions...</Text>;
-    //   } else if (!hasCameraPermissions) {
-    //     return <Text>Permission for camera not granted.</Text>;
-    //   }
-
-
-
-    // from gallery
-    const pickFromGallery = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-            allowsEditing: true,
-            aspect: [16, 9],
-            quality: 1
-        })
-        if (!result.canceled) {
-            // pass video uri into save component
-            navigation.navigate('SavePost' , {videolink : result.assets[0].uri})
-        }
-    }
-
-    // if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
-    //     return (
-    //         <View></View>
-    //     )
-    // }
-
-    const recordVideo = async () => {
-        setIsRecording(true);
-        try {
-            const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality['480'] }
-            const videoRecordPromise = cameraRef.current.recordAsync(options)
-
-            if (videoRecordPromise) {
-                videoRecordPromise.then((recordedVideo) => {
-                    setVideo(recordedVideo);
-                    setIsRecording(false);
-                })
-            }
-        } catch (error) {
-            console.warn(error)
-        }
-        
-    }
-
-    const stopVideo = async () => {
-        setIsRecording(false);
-        cameraRef.current.stopRecording();
-    
-    }
-
-    let saveVideo = () => {
-        navigation.navigate('SavePost' , {videolink : video.uri})
-      };
-
-    if (video) {  
-        return (
-          <SafeAreaView style={styles.container}>
-            <Video
-              style={styles.video}
-              source={{uri: video.uri}}
-              useNativeControls
-              resizeMode='contain'
-              isLooping
-            />
-
-            <Button title="Upload" onPress={saveVideo} />
-            <Button title="Discard" onPress={() => setVideo(undefined)} />
-          </SafeAreaView>
-        );
-    }
+  if (video) {
 
     return (
-        <View style={styles.container}>
-                <Camera
-                    ref={cameraRef}
-                    style={styles.camera}
-                    ratio={'16:9'}
-                    type={cameraType}
-                    flashMode={cameraFlash}
-                    onCameraReady={() => setIsCameraReady(true)}
-                />
+      <SafeAreaView style={styles.container}>
+        <Video
+          style={styles.video}
+          source={{uri: video.uri}}
+          useNativeControls
+          resizeMode='contain'
+          isLooping
+        />
+        <Button title="Discard" onPress={() => setVideo(undefined)} />
+      </SafeAreaView>
+    );
+  }
 
-
-            <View style={styles.bottomBarContainer}>
-                <View style={{ flex: 1 }}></View>
-                <View style={styles.recordButtonContainer}>
-                {!isRecording ? 
-                    <TouchableOpacity
-                        disabled={!isCameraReady}
-                        onPress={() => recordVideo()}
-                        style={styles.recordButton}
-                    />
-                     :
-                    <TouchableOpacity
-                        onPress={() => stopVideo()}
-                        style={styles.recordingButton}
-                    />
-                }
-                </View>
-                <View style={{ flex: 1 }}>
-                {!isRecording ? 
-                    <TouchableOpacity
-                        onPress={() => pickFromGallery()}
-                        style={styles.galleryButton}>
-                        {galleryItems[0] == undefined ?
-                            <></>
-                            :
-                            <Image
-                                style={styles.galleryButtonImage}
-                                source={{ uri: galleryItems[0].uri }}
-                            />}
-                    </TouchableOpacity>
-                    : <></>
-                }
-                </View> 
-            </View>
-        </View>
-    )
+  return (
+    <Camera style={styles.container} ref={cameraRef}>
+      <View style={styles.buttonContainer}>
+        <Button title={isRecording ? "Stop Recording" : "Record Video"} onPress={isRecording ? stopRecording : recordVideo} />
+      </View>
+    </Camera>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    backgroundColor: "#fff",
+    alignSelf: "flex-end"
+  },
+  video: {
+    flex: 1,
+    alignSelf: "stretch"
+  }
+});
