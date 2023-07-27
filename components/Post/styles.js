@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+    width: '100%',
+    height: '100%',
   },
   uiContainer: {
     height: '100%',

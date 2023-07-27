@@ -51,6 +51,7 @@ const Post = (props) => {
             isLooping
             onLoad={() =>  {video.current.playAsync()}}
             shouldPlay = {true}
+            useNativeControls
           />
 
           <View style={styles.uiContainer}>
