@@ -4,7 +4,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-      },
+    },
+    vidcontainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     video: {
         flex: 1,
         alignSelf: "stretch"

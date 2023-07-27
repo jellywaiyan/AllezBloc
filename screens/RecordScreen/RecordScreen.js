@@ -79,7 +79,7 @@ export default function RecordScreen() {
   if (video) {
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.vidcontainer}>
         <Video
           style={styles.video}
           source={{uri: video.uri}}
