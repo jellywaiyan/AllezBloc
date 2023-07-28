@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
 import {View, TouchableWithoutFeedback, Text, Image, TouchableOpacity} from 'react-native';
 import {Storage} from 'aws-amplify';
 import {API, graphqlOperation} from 'aws-amplify';
@@ -7,12 +7,17 @@ import styles from './styles';
 import { getUser } from '../../src/graphql/queries';
 
 
-const Post = (props) => {
+const Post = forwardRef((props , ref) => {
   const [post, setPost] = useState(props.post);
   const [videoUri, setVideoUri] = useState('');
   const [status, setStatus] = React.useState({});
   const video = React.useRef(null);
   const [name, setName] = useState("");
+  useImperativeHandle(ref, () => ({
+    play,
+    unload,
+    stop
+  }))
 
   
   const getVideoUri = async () => {
@@ -32,8 +37,8 @@ const Post = (props) => {
     useEffect(() => {
       getVideoUri();
       syncUser();
-
       return () => unload();
+
     
   },[]);
 
@@ -120,8 +125,7 @@ const Post = (props) => {
             style={styles.video}
             resizeMode={ResizeMode.CONTAIN}
             isLooping
-            shouldPlay = {true}
-            usePoster
+            shouldPlay = {false}
             posterStyle={{ resizeMode: 'cover', height: '100%' }}
           />
 
@@ -139,6 +143,6 @@ const Post = (props) => {
       </TouchableWithoutFeedback>
     </View>
   );
-};
+});
 
 export default Post;
