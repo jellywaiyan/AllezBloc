@@ -1,9 +1,6 @@
-import React, {useState} from 'react';
-import { useCallback } from 'react';
+import React from 'react';
 import {StyleSheet, Text, 
   View, Image, ScrollView, Alert} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { useNavigation } from '@react-navigation/native';

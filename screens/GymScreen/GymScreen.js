@@ -7,15 +7,12 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
-  TextInput,
   FlatList,
-  ImageBackground,
 } from 'react-native';
 import {HOMECOLOURS} from '../../assets/color';
 import {Categories} from '../../data/dummy';
 import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
-// code
 
 const GymScreen = () => {
   const [currentSelected, setCurrentSelected] = useState([0]);
@@ -140,7 +137,7 @@ const GymScreen = () => {
               bottom: 0,
               flexDirection: 'row',
               alignItems: 'center',
-              right: 0, // Set the right property to 0 to position the item on the absolute right
+              right: 0,
             }}>
             <View
               style={{
@@ -151,10 +148,6 @@ const GymScreen = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              {/* <Entypo
-                name="plus"
-                style={{fontSize: 18, color: HOMECOLOURS.black}}
-              /> */}
               <Image source={require("../../assets/plusicon.png")}
               style={{height:40, width:40}}
               />

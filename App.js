@@ -1,5 +1,3 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import { AppProvider } from "./AppContext";
 import Navigation from "./navigation";
 import { Amplify, Auth, API, graphqlOperation } from "aws-amplify";
 import awsExports from './src/aws-exports';
@@ -36,11 +34,9 @@ const App = () => {
   },[]);
 
   return (
-    <AppProvider>
       <View style={{flex : 1, justifyContent:"center", backgroundColor:HOMECOLOURS.dullwhite, paddingBottom:30}}>
     <Navigation/>
     </View>
-    </AppProvider>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { FlatList } from 'react-native';
 import { HOMECOLOURS } from '../../assets/color';
 import FriendsListItem from '../../components/FriendsListItem';
 import { API,Auth,graphqlOperation } from 'aws-amplify';

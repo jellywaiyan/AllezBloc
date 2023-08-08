@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { HOMECOLOURS } from '../../assets/color';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import {getUser} from "../../src/graphql/queries"

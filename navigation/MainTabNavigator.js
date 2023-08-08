@@ -3,8 +3,7 @@ import ChatScreen from "../screens/ChatScreen/ChatScreen";
 import GymScreen from "../screens/GymScreen/GymScreen";
 import ProfilePage from "../screens/ProfilePage/ProfilePage";
 import RecordScreen from "../screens/RecordScreen/RecordScreen";
-import { Image, Pressable, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons"
+import { Image, StyleSheet } from "react-native";
 import { HOMECOLOURS } from "../assets/color";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Auth, API, graphqlOperation } from "aws-amplify";

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View,Text, ImageBackground,StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { ImageBackground,StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import bckgrnd from "../../assets/BG.png";
 import Message from '../../components/Message';
 import MessageBox from '../../components/MessageBox';
 import { KeyboardAvoidingView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { API, graphqlOperation } from 'aws-amplify';
 import { getChatRoom, listMessagesByChatRoom } from '../../src/graphql/queries';

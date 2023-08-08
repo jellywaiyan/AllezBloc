@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Image, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HOMECOLOURS } from '../../assets/color';
 import { getUser } from '../../src/graphql/queries';
@@ -59,6 +59,7 @@ const EditProfilePage = () => {
       }
     const updatedUser = await API.graphql(graphqlOperation(updateUser, variables));
     setImageSource([]);
+    userData._version += 1;
     setLoading(false);
 };
 

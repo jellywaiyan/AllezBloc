@@ -1,11 +1,9 @@
-import { View, Text, StyleSheet, Image, Pressable, useWindowDimensions } from "react-native";
+import { View, Text, StyleSheet, Image, useWindowDimensions } from "react-native";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import { HOMECOLOURS } from "../../assets/color";
 import { Auth, Storage } from "aws-amplify";
 import { useEffect, useState } from "react";
-import { S3Image } from "aws-amplify-react-native";
 import ImageView from "react-native-image-viewing";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -77,8 +75,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     maxWidth: "80%",
-
-		// Shadows
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
